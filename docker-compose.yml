@@ -1,0 +1,28 @@
+services:
+  babysitting.api:
+    image: ${DOCKER_REGISTRY-}babysittingapi
+    container_name: babysitting.api
+    build:
+      context: .
+      dockerfile: BabySitting.Api/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    
+  babysitting.database:
+    image: postgres:latest 
+    container_name: babysitting.database
+    environment:
+      - POSTGRES_DB=babysitting
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/babysitting-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  babysitting.cache:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
