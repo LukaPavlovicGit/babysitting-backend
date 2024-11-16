@@ -1,6 +1,7 @@
 using BabySitting.Api.Database;
 using BabySitting.Api.Entities;
 using BabySitting.Api.Extensions;
+using BabySitting.Api.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +20,26 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
 
-builder.Services.AddIdentityCore<User>()
+//builder.Services.AddIdentityCore<User>()
+//    .AddEntityFrameworkStores<ApplicationDbContext>()
+//    .AddApiEndpoints();
+
+
+builder.Services.AddIdentity<User, IdentityRole>(
+    options =>
+    {
+        options.Password.RequiredLength = 8;
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireNonAlphanumeric = true;
+        options.Password.RequiredUniqueChars = 4;
+    })
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddApiEndpoints();
+    .AddApiEndpoints()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddTransient<ISenderEmail, EmailSender>();
 
 var app = builder.Build();
 
