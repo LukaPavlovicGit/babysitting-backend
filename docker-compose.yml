@@ -1,4 +1,5 @@
 services:
+
   babysitting.api:
     image: ${DOCKER_REGISTRY-}babysittingapi
     container_name: babysitting.api
@@ -22,6 +23,16 @@ services:
       - ./.containers/babysitting-db:/var/lib/postgresql/data
     ports:
       - 5432:5432
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    ports:
+      - "5050:80"
 
   babysitting.cache:
     image: redis:latest
