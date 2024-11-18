@@ -16,7 +16,7 @@ public class EmailSender : ISenderEmail
     }
     public Task SendEmailAsync(string ToEmail, string Subject, string Body, bool IsBodyHtml = false)
     {
-        string MailServer = _configuration["EmailSettings:MailServerA"]!;
+        string MailServer = _configuration["EmailSettings:MailServer"]!;
         string FromEmail = _configuration["EmailSettings:FromEmail"]!;
         string Password = _configuration["EmailSettings:Password"]!;
         int Port = int.Parse(_configuration["EmailSettings:MailPort"]!);
