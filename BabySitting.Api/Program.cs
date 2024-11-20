@@ -2,6 +2,8 @@ using BabySitting.Api.Database;
 using BabySitting.Api.Entities;
 using BabySitting.Api.Extensions;
 using BabySitting.Api.Shared;
+using Carter;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,11 +22,6 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
 
-//builder.Services.AddIdentityCore<User>()
-//    .AddEntityFrameworkStores<ApplicationDbContext>()
-//    .AddApiEndpoints();
-
-
 builder.Services.AddIdentity<User, IdentityRole>(
     options =>
     {
@@ -42,6 +39,14 @@ builder.Services.AddIdentity<User, IdentityRole>(
 
 builder.Services.AddTransient<ISenderEmail, EmailSender>();
 
+var assembly = typeof(Program).Assembly;
+
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(assembly));
+
+builder.Services.AddCarter();
+
+builder.Services.AddValidatorsFromAssembly(assembly);
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -52,9 +57,12 @@ if (app.Environment.IsDevelopment())
     app.ApplyMigrations();
 }
 
+
 app.UseHttpsRedirection();
 
 app.MapIdentityApi<User>();
+
+app.MapCarter();
 
 app.Run();
 

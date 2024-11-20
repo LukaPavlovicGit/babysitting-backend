@@ -1,5 +1,4 @@
 services:
-
   babysitting.api:
     image: ${DOCKER_REGISTRY-}babysittingapi
     container_name: babysitting.api
