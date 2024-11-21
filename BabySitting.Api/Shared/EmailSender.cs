@@ -1,8 +1,8 @@
 ﻿using System.Net.Mail;
 using System.Net;
-using BabySitting.Api.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Text.Encodings.Web;
+using BabySitting.Api.Domain.Entities;
 
 namespace BabySitting.Api.Shared;
 

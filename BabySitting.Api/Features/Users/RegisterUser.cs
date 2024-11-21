@@ -1,6 +1,5 @@
 ﻿using BabySitting.Api.Contracts;
 using BabySitting.Api.Database;
-using BabySitting.Api.Entities;
 using BabySitting.Api.Shared;
 using Carter;
 using FluentValidation;
@@ -13,6 +12,7 @@ using System.Text.Encodings.Web;
 using System;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Security.Policy;
+using BabySitting.Api.Domain.Entities;
 
 namespace BabySitting.Api.Features.Users;
 public static class RegisterUser

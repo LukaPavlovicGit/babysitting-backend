@@ -1,7 +1,6 @@
-﻿
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace BabySitting.Api.Entities;
+namespace BabySitting.Api.Domain.Entities;
 
 public class User : IdentityUser
 {
