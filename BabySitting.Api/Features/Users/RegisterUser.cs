@@ -100,21 +100,16 @@ public class RegisterUserEndpoint : ICarterModule
 { 
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost(
-            "/registerrrrr", 
-            async (
-                RegisterUserRequest request,
-                ISender sender
-            ) => {
+        app.MapPost("/registerrrrr", async (RegisterUserRequest request, ISender sender) => {
 
-                var command = request.Adapt<RegisterUser.Command>();
-                var result = await sender.Send(command);
-                if (result.IsFailure)
-                {
-                    return Results.BadRequest(result.Error);
-                }
-                return Results.Ok(result.Value);
-            } );
+            var command = request.Adapt<RegisterUser.Command>();
+            var result = await sender.Send(command);
+            if (result.IsFailure)
+            {
+                return Results.BadRequest(result.Error);
+            }
+            return Results.Ok(result.Value);
+        });
     }
 
 }

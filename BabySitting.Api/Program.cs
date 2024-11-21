@@ -20,7 +20,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
+builder.Services.AddAuthentication()
+    .AddBearerToken(IdentityConstants.BearerScheme);
 
 builder.Services.AddIdentity<User, IdentityRole>(
     options =>
@@ -56,7 +57,6 @@ if (app.Environment.IsDevelopment())
 
     app.ApplyMigrations();
 }
-
 
 app.UseHttpsRedirection();
 

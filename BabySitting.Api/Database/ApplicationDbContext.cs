@@ -14,6 +14,9 @@ public class ApplicationDbContext : IdentityDbContext<User>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.Entity<User>()
+            .Property(u => u.FirstName);
         
         builder.HasDefaultSchema("identity");
     }
