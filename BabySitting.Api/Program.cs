@@ -1,11 +1,12 @@
 using BabySitting.Api.Database;
-using BabySitting.Api.Entities;
+using BabySitting.Api.Domain.Entities;
 using BabySitting.Api.Extensions;
 using BabySitting.Api.Shared;
 using Carter;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using BabySitting.Api.Domain.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,11 +51,23 @@ builder.Services.AddValidatorsFromAssembly(assembly);
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    foreach (var role in Enum.GetValues<Role>())
+    {
+        if (!await roleManager.RoleExistsAsync(role.ToString()))
+        {
+            await roleManager.CreateAsync(new IdentityRole { Name = role.ToString() });
+        }
+    }
+}
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
     app.ApplyMigrations();
 }
 
