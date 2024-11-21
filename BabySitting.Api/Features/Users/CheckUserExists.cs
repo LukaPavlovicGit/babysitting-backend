@@ -41,19 +41,22 @@ public class CheckUserExists
 
             return new CheckUserExistsResponse(user.Id);
         }
-
     }
-
 }
 
 public class CheckUserExistsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("CheckUserExists/{email}", async (Guid email, ISender sender) =>
+        app.MapGet("CheckUserExists/{email}", async (string email, ISender sender) =>
         {
-            var query = new CheckUserExists.Query { Id = email };
-            return sender.Send(query);
+            var query = new CheckUserExists.Query { Email = email };
+            var result = await sender.Send(query);
+            if (result.IsFailure)
+            {
+                return Results.NotFound(result.Error);
+            }
+            return Results.Ok(result.Value);
         }); 
     }
 }
