@@ -43,9 +43,14 @@ public class EmailSender : ISenderEmail
     {
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         string baseUrl = _configuration["AppBaseUrl"]!;
-        string confirmationLink = $"{baseUrl}/Account/ConfirmEmail?UserId={user.Id}&Token={token}";
+        string confirmationLink = $"{baseUrl}/api/account/emailConfirmation?UserId={user.Id}&Token={token}";
         string encodedLink = HtmlEncoder.Default.Encode(confirmationLink);
-        await SendEmailAsync(email, "Confirm Your Email", $"Please confirm your account by <a href='{encodedLink}'>clicking here</a>.", true);
+        await SendEmailAsync(
+            email, 
+            "Confirm Your Email", 
+            $"Please confirm your account by <a href='{encodedLink}'>clicking here</a>.",
+            true
+        );
     }
 
 }
