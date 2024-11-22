@@ -39,6 +39,8 @@ builder.Services.AddIdentity<User, IdentityRole>(
     .AddApiEndpoints()
     .AddDefaultTokenProviders();
 
+
+
 builder.Services.AddTransient<ISenderEmail, EmailSender>();
 
 var assembly = typeof(Program).Assembly;

@@ -6,12 +6,6 @@ using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Encodings.Web;
-using System;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System.Security.Policy;
 using BabySitting.Api.Domain.Entities;
 
 namespace BabySitting.Api.Features.Users;
@@ -90,7 +84,7 @@ public static class RegisterUser
                 return Result.Success<Guid>(Guid.Parse(user.Id));
             }
 
-            return Result.Failure<Guid>(new Error("RegisterUserRequest.create", "Failed to create user"));
+            return Result.Failure<Guid>(new Error("RegisterUserRequest.create", result.ToString()));
         }
 
     }
@@ -100,7 +94,8 @@ public class RegisterUserEndpoint : ICarterModule
 { 
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/registerrrrr", async (RegisterUserRequest request, ISender sender) => {
+        app.MapPost("/api/account/register", async (RegisterUserRequest request, ISender sender) => 
+        {
 
             var command = request.Adapt<RegisterUser.Command>();
             var result = await sender.Send(command);
