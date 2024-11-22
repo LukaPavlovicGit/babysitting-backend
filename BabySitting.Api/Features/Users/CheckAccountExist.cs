@@ -3,12 +3,11 @@ using BabySitting.Api.Database;
 using BabySitting.Api.Shared;
 using Carter;
 using MediatR;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace BabySitting.Api.Features.Users;
 
-public class CheckUserExists
+public class CheckAccountExist
 {
     public class Query : IRequest<Result<CheckUserExistsResponse>>
     {
@@ -48,9 +47,9 @@ public class CheckUserExistsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("CheckUserExists/{email}", async (string email, ISender sender) =>
+        app.MapGet("/api/account/checkAccountExists/{email}", async (string email, ISender sender) =>
         {
-            var query = new CheckUserExists.Query { Email = email };
+            var query = new CheckAccountExist.Query { Email = email };
             var result = await sender.Send(query);
             if (result.IsFailure)
             {
