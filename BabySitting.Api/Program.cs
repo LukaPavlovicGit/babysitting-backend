@@ -38,7 +38,6 @@ builder.Services.AddIdentity<User, IdentityRole>(
         options.SignIn.RequireConfirmedEmail = true;
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddApiEndpoints()
     .AddDefaultTokenProviders();
 
 
@@ -83,8 +82,6 @@ app.UseMiddleware<RequestContextLoggingMiddleware>();
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
-
-app.MapIdentityApi<User>();
 
 app.MapCarter();
 
