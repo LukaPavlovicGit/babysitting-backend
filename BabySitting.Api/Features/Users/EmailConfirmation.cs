@@ -4,6 +4,8 @@ using BabySitting.Api.Shared;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace BabySitting.Api.Features.Users;
 public class EmailConfirmation
@@ -19,11 +21,13 @@ public class EmailConfirmation
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<User> _userManager;
+        private readonly ILogger<Handler> _logger;
 
-        public Handler(ApplicationDbContext dbContext, UserManager<User> userManager)
+        public Handler(ApplicationDbContext dbContext, UserManager<User> userManager, ILogger<Handler> logger)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _logger = logger;
         }
 
         public async Task<Result<String>> Handle(Command request, CancellationToken cancellationToken)
@@ -45,7 +49,7 @@ public class EmailConfirmation
                 return Result.Success<String>("Thank you for confirming your email");
             }
 
-            return Result.Failure<String>(new Error("EmailConfirmationRequest", "Email cannot be confirmed"));
+            return Result.Failure<String>(new Error("EmailConfirmationRequest", $"Email cannot be confirmed: {result.ToString()}"));
         }
     }
 }
@@ -57,7 +61,9 @@ public class EmailCOnfirmationEndpoint : ICarterModule
     {
         app.MapGet("/api/account/emailConfirmation", async (string userId, string token, ISender sender) =>
         {
-            var command = new EmailConfirmation.Command{ UserId = userId, Token = token };
+            var decodedBytes = WebEncoders.Base64UrlDecode(token);
+            var decodedToken = Encoding.UTF8.GetString(decodedBytes);
+            var command = new EmailConfirmation.Command{ UserId = userId, Token = decodedToken };
             var result = await sender.Send(command);
             if (result.IsFailure)
             {
