@@ -55,7 +55,7 @@ public class EmailCOnfirmationEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/account/emailConfirmation", async (string userId, string token, ISender sender) =>
+        app.MapGet("/api/account/emailConfirmation", async (string userId, string token, ISender sender) =>
         {
             var command = new EmailConfirmation.Command{ UserId = userId, Token = token };
             var result = await sender.Send(command);
