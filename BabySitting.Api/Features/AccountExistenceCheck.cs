@@ -9,12 +9,12 @@ namespace BabySitting.Api.Features;
 
 public class AccountExistenceCheck
 {
-    public class Query : IRequest<Result<CheckAccountExistsResponse>>
+    public class Query : IRequest<Result<AccountExistenceCheckResponse>>
     {
         public string Email { get; set; } = string.Empty;
     }
 
-    internal sealed class Handler : IRequestHandler<Query, Result<CheckAccountExistsResponse>>
+    internal sealed class Handler : IRequestHandler<Query, Result<AccountExistenceCheckResponse>>
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -23,7 +23,7 @@ public class AccountExistenceCheck
             _dbContext = dbContext;
         }
 
-        public async Task<Result<CheckAccountExistsResponse>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Result<AccountExistenceCheckResponse>> Handle(Query request, CancellationToken cancellationToken)
         {
             var user = await _dbContext
                 .Users
@@ -33,13 +33,13 @@ public class AccountExistenceCheck
 
             if (user == null)
             {
-                return Result.Failure<CheckAccountExistsResponse>(new Error(
+                return Result.Failure<AccountExistenceCheckResponse>(new Error(
                     "GetUser.Null",
                     "The user with the specified EMAIL was not found"
                 ));
             }
 
-            return new CheckAccountExistsResponse(user.Id);
+            return new AccountExistenceCheckResponse(user.Id);
         }
     }
 }

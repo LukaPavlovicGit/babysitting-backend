@@ -1,14 +1,14 @@
 ﻿using System;
 
 namespace BabySitting.Api.Contracts;
-public class CheckAccountExistsResponse
+public class AccountExistenceCheckResponse
 {
-    public CheckAccountExistsResponse() 
+    public AccountExistenceCheckResponse() 
     {
         
     }
 
-    public CheckAccountExistsResponse(string id)
+    public AccountExistenceCheckResponse(string id)
     {
         UserId = Guid.Parse(id);
     }
