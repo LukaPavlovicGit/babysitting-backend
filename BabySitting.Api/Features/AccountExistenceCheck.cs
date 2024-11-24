@@ -1,4 +1,4 @@
-﻿using BabySitting.Api.Contracts;
+﻿using BabySitting.Api.Contracts.responses;
 using BabySitting.Api.Database;
 using BabySitting.Api.Shared;
 using Carter;

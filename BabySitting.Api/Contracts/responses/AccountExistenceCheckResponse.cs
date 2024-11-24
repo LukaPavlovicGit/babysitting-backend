@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace BabySitting.Api.Contracts;
+namespace BabySitting.Api.Contracts.responses;
 public class AccountExistenceCheckResponse
 {
-    public AccountExistenceCheckResponse() 
+    public AccountExistenceCheckResponse()
     {
-        
+
     }
 
     public AccountExistenceCheckResponse(string id)

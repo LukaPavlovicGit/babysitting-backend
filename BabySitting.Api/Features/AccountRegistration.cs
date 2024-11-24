@@ -1,5 +1,4 @@
-﻿using BabySitting.Api.Contracts;
-using BabySitting.Api.Database;
+﻿using BabySitting.Api.Database;
 using BabySitting.Api.Shared;
 using Carter;
 using FluentValidation;
@@ -7,6 +6,7 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using BabySitting.Api.Domain.Entities;
+using BabySitting.Api.Contracts.requests;
 
 namespace BabySitting.Api.Features;
 public static class AccountRegistration

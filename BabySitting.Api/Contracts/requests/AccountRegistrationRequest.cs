@@ -1,4 +1,4 @@
-﻿namespace BabySitting.Api.Contracts;
+﻿namespace BabySitting.Api.Contracts.requests;
 public class AccountRegistrationRequest
 {
     public string Email { get; set; } = string.Empty;
