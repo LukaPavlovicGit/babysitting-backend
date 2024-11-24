@@ -8,8 +8,8 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using BabySitting.Api.Domain.Entities;
 
-namespace BabySitting.Api.Features.Users;
-public static class RegisterUser
+namespace BabySitting.Api.Features.Accounts;
+public static class AccountRegistration
 {
 
     public class Command : IRequest<Result<Guid>>
@@ -62,7 +62,7 @@ public static class RegisterUser
 
             if(!validationResult.IsValid)
             {
-                return Result.Failure<Guid>(new Error("RegisterUserRequest.validation", validationResult.ToString()));
+                return Result.Failure<Guid>(new Error("AccountRegistrationRequest.validation", validationResult.ToString()));
             }
 
             var user = new User
@@ -84,20 +84,20 @@ public static class RegisterUser
                 return Result.Success<Guid>(Guid.Parse(user.Id));
             }
 
-            return Result.Failure<Guid>(new Error("RegisterUserRequest.create", result.ToString()));
+            return Result.Failure<Guid>(new Error("AccountRegistrationRequest.create", result.ToString()));
         }
 
     }
 }
 
-public class RegisterUserEndpoint : ICarterModule
+public class AccountRegistrationEndpoint : ICarterModule
 { 
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/account/register", async (RegisterUserRequest request, ISender sender) => 
+        app.MapPost("/api/account/register", async (AccountRegistrationRequest request, ISender sender) => 
         {
 
-            var command = request.Adapt<RegisterUser.Command>();
+            var command = request.Adapt<AccountRegistration.Command>();
             var result = await sender.Send(command);
             if (result.IsFailure)
             {

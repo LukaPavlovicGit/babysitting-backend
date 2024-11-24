@@ -1,5 +1,5 @@
 ﻿namespace BabySitting.Api.Contracts;
-public class RegisterUserRequest
+public class AccountRegistrationRequest
 {
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
