@@ -67,7 +67,7 @@ if (app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    foreach (var role in Enum.GetValues<Role>())
+    foreach (var role in Enum.GetValues<RoleEnum>())
     {
         if (!await roleManager.RoleExistsAsync(role.ToString()))
         {

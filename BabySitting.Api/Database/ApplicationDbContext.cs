@@ -1,4 +1,5 @@
 ﻿using BabySitting.Api.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,10 @@ public class ApplicationDbContext : IdentityDbContext<User>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.Entity<IdentityRole>()
+            .HasIndex(r => r.Name)
+            .IsUnique();
 
         builder.HasDefaultSchema("identity");
     }
