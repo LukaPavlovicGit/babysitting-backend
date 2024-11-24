@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BabySitting.Api.Features;
 
-public class CheckAccountExist
+public class AccountExistenceCheck
 {
     public class Query : IRequest<Result<CheckAccountExistsResponse>>
     {
@@ -50,7 +50,7 @@ public class CheckUserExistsEndpoint : ICarterModule
     {
         app.MapGet("/api/account/checkAccountExists/{email}", async (string email, ISender sender) =>
         {
-            var query = new CheckAccountExist.Query { Email = email };
+            var query = new AccountExistenceCheck.Query { Email = email };
             var result = await sender.Send(query);
             if (result.IsFailure)
             {

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 
 namespace BabySitting.Api.Features;
-public class EmailConfirmation
+public class AccountActivation
 {
     public class Command : IRequest<Result<string>>
     {
@@ -63,7 +63,7 @@ public class EmailCOnfirmationEndpoint : ICarterModule
         {
             var decodedBytes = WebEncoders.Base64UrlDecode(token);
             var decodedToken = Encoding.UTF8.GetString(decodedBytes);
-            var command = new EmailConfirmation.Command { UserId = userId, Token = decodedToken };
+            var command = new AccountActivation.Command { UserId = userId, Token = decodedToken };
             var result = await sender.Send(command);
             if (result.IsFailure)
             {
