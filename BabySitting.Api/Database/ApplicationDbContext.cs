@@ -1,8 +1,6 @@
 ﻿using BabySitting.Api.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using BabySitting.Api.Domain.Enums;
 
 namespace BabySitting.Api.Database;
 
