@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using BabySitting.Api.Domain.Entities;
 
-namespace BabySitting.Api.Features.Accounts;
+namespace BabySitting.Api.Features;
 public static class AccountRegistration
 {
 
@@ -21,7 +21,7 @@ public static class AccountRegistration
     }
 
     public class Validator : AbstractValidator<Command>
-    { 
+    {
         public Validator()
         {
             RuleFor(s => s.Email).EmailAddress();
@@ -48,11 +48,11 @@ public static class AccountRegistration
             IConfiguration configuration
         )
         {
-            this._dbContext = dbContext;
-            this._validator = validator;
-            this._userManager = userManager;
-            this._emailSender = emailSender;
-            this._configuration = configuration;
+            _dbContext = dbContext;
+            _validator = validator;
+            _userManager = userManager;
+            _emailSender = emailSender;
+            _configuration = configuration;
         }
 
         public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
@@ -60,7 +60,7 @@ public static class AccountRegistration
 
             var validationResult = _validator.Validate(request);
 
-            if(!validationResult.IsValid)
+            if (!validationResult.IsValid)
             {
                 return Result.Failure<Guid>(new Error("AccountRegistrationRequest.validation", validationResult.ToString()));
             }
@@ -81,7 +81,7 @@ public static class AccountRegistration
             if (result.Succeeded)
             {
                 await _emailSender.SendConfirmationEmail(request.Email, user);
-                return Result.Success<Guid>(Guid.Parse(user.Id));
+                return Result.Success(Guid.Parse(user.Id));
             }
 
             return Result.Failure<Guid>(new Error("AccountRegistrationRequest.create", result.ToString()));
@@ -91,10 +91,10 @@ public static class AccountRegistration
 }
 
 public class AccountRegistrationEndpoint : ICarterModule
-{ 
+{
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/account/register", async (AccountRegistrationRequest request, ISender sender) => 
+        app.MapPost("/api/account/register", async (AccountRegistrationRequest request, ISender sender) =>
         {
 
             var command = request.Adapt<AccountRegistration.Command>();

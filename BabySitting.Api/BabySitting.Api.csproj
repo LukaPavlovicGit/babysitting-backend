@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Accounts\**" />
+    <Content Remove="Features\Accounts\**" />
+    <EmbeddedResource Remove="Features\Accounts\**" />
+    <None Remove="Features\Accounts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Contracts\EmailConfirmationRequest.cs" />
   </ItemGroup>
 

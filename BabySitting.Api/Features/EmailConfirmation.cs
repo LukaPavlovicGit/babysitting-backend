@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 
-namespace BabySitting.Api.Features.Users;
+namespace BabySitting.Api.Features;
 public class EmailConfirmation
 {
-    public class Command : IRequest<Result<String>>
+    public class Command : IRequest<Result<string>>
     {
         public string UserId { get; set; } = string.Empty;
         public string Token { get; set; } = string.Empty;
     }
 
 
-    internal sealed class Handler : IRequestHandler<Command, Result<String>>
+    internal sealed class Handler : IRequestHandler<Command, Result<string>>
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<User> _userManager;
@@ -30,26 +30,26 @@ public class EmailConfirmation
             _logger = logger;
         }
 
-        public async Task<Result<String>> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
         {
             if (request.UserId == null || request.Token == null)
             {
-                return Result.Failure<String>(new Error("EmailConfirmationRequest", "UserId or Token is null"));
+                return Result.Failure<string>(new Error("EmailConfirmationRequest", "UserId or Token is null"));
             }
 
             var user = await _userManager.FindByIdAsync(request.UserId);
-            if(user == null)
+            if (user == null)
             {
-                return Result.Failure<String>(new Error("EmailConfirmationRequest", "User not found by UserId"));
+                return Result.Failure<string>(new Error("EmailConfirmationRequest", "User not found by UserId"));
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, request.Token);
             if (result.Succeeded)
             {
-                return Result.Success<String>("Thank you for confirming your email");
+                return Result.Success("Thank you for confirming your email");
             }
 
-            return Result.Failure<String>(new Error("EmailConfirmationRequest", $"Email cannot be confirmed: {result.ToString()}"));
+            return Result.Failure<string>(new Error("EmailConfirmationRequest", $"Email cannot be confirmed: {result.ToString()}"));
         }
     }
 }
@@ -63,7 +63,7 @@ public class EmailCOnfirmationEndpoint : ICarterModule
         {
             var decodedBytes = WebEncoders.Base64UrlDecode(token);
             var decodedToken = Encoding.UTF8.GetString(decodedBytes);
-            var command = new EmailConfirmation.Command{ UserId = userId, Token = decodedToken };
+            var command = new EmailConfirmation.Command { UserId = userId, Token = decodedToken };
             var result = await sender.Send(command);
             if (result.IsFailure)
             {
@@ -72,5 +72,5 @@ public class EmailCOnfirmationEndpoint : ICarterModule
             return Results.Ok(result.Value);
         });
     }
-     
+
 }

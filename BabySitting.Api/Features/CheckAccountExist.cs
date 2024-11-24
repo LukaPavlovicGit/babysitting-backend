@@ -5,7 +5,7 @@ using Carter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace BabySitting.Api.Features.Users;
+namespace BabySitting.Api.Features;
 
 public class CheckAccountExist
 {
@@ -31,7 +31,8 @@ public class CheckAccountExist
                 .Where(u => string.Equals(u.Email, request.Email, StringComparison.OrdinalIgnoreCase))
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (user == null) {
+            if (user == null)
+            {
                 return Result.Failure<CheckAccountExistsResponse>(new Error(
                     "GetUser.Null",
                     "The user with the specified EMAIL was not found"
@@ -56,6 +57,6 @@ public class CheckUserExistsEndpoint : ICarterModule
                 return Results.NotFound(result.Error);
             }
             return Results.Ok(result.Value);
-        }); 
+        });
     }
 }
