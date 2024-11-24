@@ -1,5 +1,5 @@
 ﻿namespace BabySitting.Api.Domain.Enums;
-enum ChildCharacteristicsEnum
+public enum ChildCharacteristicsEnum
 {
     ENERGETIC,
     CURIOUS,

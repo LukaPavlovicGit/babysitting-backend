@@ -1,5 +1,5 @@
 ﻿namespace BabySitting.Api.Domain.Enums;
-enum RoleEnum
+public enum RoleEnum
 {
     NONE,
     PARENT,
