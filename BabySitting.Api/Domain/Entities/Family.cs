@@ -2,7 +2,8 @@
 using MediatR;
 
 namespace BabySitting.Api.Domain.Entities;
-public class FamilyInformation
+
+public class Family
 {
     public int Id { get; set; }
 
@@ -18,5 +19,5 @@ public class FamilyInformation
 
     public required HashSet<ChildAgeCategoryEnum> ChildrenAgeCategories { get; set; }
 
-    public required String FamilyDescription {  get; set; }
+    public required String FamilyDescription { get; set; }
 }
