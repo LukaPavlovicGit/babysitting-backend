@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 
-namespace BabySitting.Api.Features;
+namespace BabySitting.Api.Features.Account;
 public class AccountActivation
 {
     public class Command : IRequest<Result<string>>

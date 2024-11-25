@@ -5,7 +5,7 @@ using Carter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace BabySitting.Api.Features;
+namespace BabySitting.Api.Features.Account;
 
 public class AccountExistenceCheck
 {

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using BabySitting.Api.Domain.Entities;
 using BabySitting.Api.Contracts.requests;
 
-namespace BabySitting.Api.Features;
+namespace BabySitting.Api.Features.Account;
 public static class AccountRegistration
 {
 
