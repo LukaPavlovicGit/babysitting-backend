@@ -2,7 +2,7 @@
 public class Schedule
 {
     public int Id { get; set; }
-    
+     
     public Guid UserId { get; set; }
 
     public bool MondayMorning { get; set; } = false;
