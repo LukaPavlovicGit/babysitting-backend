@@ -14,7 +14,11 @@ public class ParentOffer
 
     public required string FirstName { get; set; }
 
-    public required string FamilyAddress { get; set; }
+    public required string AddressName { get; set; }
+    
+    public required double AddressLongitude { get; set; }
+    
+    public required double AddressLatitude { get; set; }
 
     public required HashSet<LanguagesEnum> FamilySpeakingLanguages { get; set; }
 

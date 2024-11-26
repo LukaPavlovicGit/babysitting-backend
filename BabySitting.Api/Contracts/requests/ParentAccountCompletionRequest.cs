@@ -9,17 +9,15 @@ public class ParentAccountCompletionRequest
 
     public bool SubscribeToJobNotifications { get; set; } = false;
 
-    public required ParentOfferCreateDto? ParentOfferCreateDto { get; set; }
-
-}
-
-public class ParentOfferCreateDto
-{
     public required Guid UserId { get; set; }
 
-    public required string FirstName{ get; set; }
+    public required string FirstName { get; set; }
 
-    public required string FamilyAddress { get; set; }
+    public required string AddressName { get; set; }
+
+    public required double AddressLongitude { get; set; }
+
+    public required double AddressLatitude { get; set; }
 
     public required HashSet<LanguagesEnum> FamilySpeakingLanguages { get; set; }
 
@@ -42,4 +40,3 @@ public class ParentOfferCreateDto
     public required Schedule Schedule { get; set; }
 
 }
-
