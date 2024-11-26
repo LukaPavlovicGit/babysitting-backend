@@ -9,42 +9,37 @@ public class ParentAccountCompletionRequest
 
     public bool SubscribeToJobNotifications { get; set; } = false;
 
-    public ParentOfferCreateDto? ParentOfferCreateDto { get; set; }
-
-    public FamilyCreateDto? FamilyInformationDto { get; set; }
-
-}
-
-public class FamilyCreateDto
-{
-    public Guid UserId { get; set; }
-
-    public string FirstName { get; set; } = string.Empty;
-    
-    public required string Address { get; set; }
-
-    public required HashSet<LanguagesEnum> SpeakingLanguages { get; set; }
-
-    public required int NumberOfChildren { get; set; }
-
-    public required HashSet<ChildAgeCategoryEnum> ChildrenAgeCategories { get; set; }
-
-    public required string FamilyDescription { get; set; }
+    public required ParentOfferCreateDto? ParentOfferCreateDto { get; set; }
 
 }
 
 public class ParentOfferCreateDto
 {
-    public Guid UserId { get; set; }
+    public required Guid UserId { get; set; }
 
-    public HashSet<SkillsEnum> PreferebleSkills { get; set; } = new HashSet<SkillsEnum>();
+    public required string FirstName{ get; set; }
 
-    public CurrencyEnum Currency { get; set; }
+    public required string FamilyAddress { get; set; }
 
-    public int Rate { get; set; }
+    public required HashSet<LanguagesEnum> FamilySpeakingLanguages { get; set; }
 
-    public JobLocationEnum JobLocation { get; set; }
+    public required int NumberOfChildren { get; set; }
+
+    public required HashSet<ChildAgeCategoryEnum> ChildrenAgeCategories { get; set; }
+
+    public required HashSet<ChildCharacteristicsEnum> ChildrenCharacteristics { get; set; }
+
+    public required string FamilyDescription { get; set; }
+
+    public required HashSet<SkillsEnum> PreferebleSkills { get; set; }
+
+    public required CurrencyEnum Currency { get; set; }
+
+    public required int Rate { get; set; }
+
+    public required JobLocationEnum JobLocation { get; set; }
 
     public required Schedule Schedule { get; set; }
+
 }
 

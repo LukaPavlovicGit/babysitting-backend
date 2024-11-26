@@ -10,18 +10,30 @@ public class ParentOffer
     [Key]
     public int Id { get; set; }
 
-    public Guid UsertId { get; set; }
+    public required Guid UserId { get; set; }
 
-    public int FamilyId { get; set; }
+    public required string FirstName { get; set; }
 
-    public HashSet<SkillsEnum> PreferebleSkills { get; set; } = new HashSet<SkillsEnum>();
+    public required string FamilyAddress { get; set; }
 
-    public CurrencyEnum Currency { get; set; }
+    public required HashSet<LanguagesEnum> FamilySpeakingLanguages { get; set; }
 
-    public int Rate { get; set; } 
+    public required int NumberOfChildren { get; set; }
 
-    public JobLocationEnum JobLocation { get; set; }
+    public required HashSet<ChildAgeCategoryEnum> ChildrenAgeCategories { get; set; }
 
-    public Schedule Schedule { get; set; } = new Schedule();
+    public required HashSet<ChildCharacteristicsEnum> ChildrenCharacteristics { get; set; }
+
+    public required string FamilyDescription {  get; set; }
+
+    public required HashSet<SkillsEnum> PreferebleSkills { get; set; }
+
+    public required CurrencyEnum Currency { get; set; }
+
+    public required int Rate { get; set; } 
+
+    public required JobLocationEnum JobLocation { get; set; }
+
+    public required Schedule Schedule { get; set; } 
 
 }
