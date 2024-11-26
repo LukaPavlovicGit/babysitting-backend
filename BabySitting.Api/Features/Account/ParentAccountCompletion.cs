@@ -1,4 +1,4 @@
 ﻿namespace BabySitting.Api.Features.Account;
-public class AccountCompletion
+public class ParentAccountCompletion
 {
 }

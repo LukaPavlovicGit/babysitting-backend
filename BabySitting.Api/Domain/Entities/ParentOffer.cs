@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BabySitting.Api.Domain.Entities;
 
-[Table("Offers")]
-public class Offer
+[Table("ParentOffers")]
+public class ParentOffer
 {
     [Key]
     public int Id { get; set; }

@@ -3,15 +3,13 @@ using BabySitting.Api.Domain.Enums;
 
 namespace BabySitting.Api.Contracts.requests;
 
-public class AccountCompletionRequest
+public class ParentAccountCompletionRequest
 {
-    public RoleEnum Role { get; set; }
-
     public string PhotoUrl { get; set; } = string.Empty;
 
     public bool SubscribeToJobNotifications { get; set; } = false;
 
-    public OfferCreateDto? OfferCreateDto { get; set; }
+    public ParentOfferCreateDto? ParentOfferCreateDto { get; set; }
 
     public FamilyCreateDto? FamilyInformationDto { get; set; }
 
@@ -35,7 +33,7 @@ public class FamilyCreateDto
 
 }
 
-public class OfferCreateDto
+public class ParentOfferCreateDto
 {
     public Guid UserId { get; set; }
 
