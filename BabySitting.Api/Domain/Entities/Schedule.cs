@@ -1,4 +1,8 @@
-﻿namespace BabySitting.Api.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BabySitting.Api.Domain.Entities;
+
+[Table("Schedules")]
 public class Schedule
 {
     public int Id { get; set; }
