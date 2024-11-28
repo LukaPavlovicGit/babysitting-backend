@@ -7,6 +7,10 @@ namespace BabySitting.Api.Database;
 
 public class ApplicationDbContext : IdentityDbContext<User>
 {
+
+    public DbSet<ParentOffer> ParentOffers { get; set; }
+    public DbSet<Schedule> Schedules { get; set; }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
@@ -22,5 +26,8 @@ public class ApplicationDbContext : IdentityDbContext<User>
             .IsUnique();
 
         builder.HasDefaultSchema("identity");
+
+        builder.Entity<ParentOffer>().ToTable("ParentOffers", "public");
+        builder.Entity<Schedule>().ToTable("Schedules", "public");
     }
 }
