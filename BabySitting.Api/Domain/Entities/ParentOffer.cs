@@ -20,17 +20,17 @@ public class ParentOffer
     
     public required double AddressLatitude { get; set; }
 
-    public required HashSet<LanguagesEnum> FamilySpeakingLanguages { get; set; }
+    public required List<LanguagesEnum> FamilySpeakingLanguages { get; set; }
 
     public required int NumberOfChildren { get; set; }
 
-    public required HashSet<ChildAgeCategoryEnum> ChildrenAgeCategories { get; set; }
+    public required List<ChildAgeCategoryEnum> ChildrenAgeCategories { get; set; }
 
-    public required HashSet<ChildCharacteristicsEnum> ChildrenCharacteristics { get; set; }
+    public required List<ChildCharacteristicsEnum> ChildrenCharacteristics { get; set; }
 
     public required string FamilyDescription {  get; set; }
 
-    public required HashSet<SkillsEnum> PreferebleSkills { get; set; }
+    public required List<SkillsEnum> PreferebleSkills { get; set; }
 
     public required CurrencyEnum Currency { get; set; }
 
