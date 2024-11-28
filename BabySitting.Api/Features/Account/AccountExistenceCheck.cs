@@ -48,7 +48,7 @@ public class CheckUserExistsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/account/checkAccountExists/{email}", async (string email, ISender sender) =>
+        app.MapGet("/api/account/check-account-exists/{email}", async (string email, ISender sender) =>
         {
             var query = new AccountExistenceCheck.Query { Email = email };
             var result = await sender.Send(query);

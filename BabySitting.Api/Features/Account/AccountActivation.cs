@@ -59,7 +59,7 @@ public class EmailCOnfirmationEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/account/emailConfirmation", async (string userId, string token, ISender sender) =>
+        app.MapGet("/api/account/email-confirmation", async (string userId, string token, ISender sender) =>
         {
             var decodedBytes = WebEncoders.Base64UrlDecode(token);
             var decodedToken = Encoding.UTF8.GetString(decodedBytes);
