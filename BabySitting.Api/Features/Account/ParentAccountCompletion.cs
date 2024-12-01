@@ -84,7 +84,7 @@ public class ParentAccountCompletion
 
             var result = await _dbContext.SaveChangesAsync();
 
-            if(result == 1)
+            if(result == 2)
             {
                 return Result.Success("Successfully");
             }
