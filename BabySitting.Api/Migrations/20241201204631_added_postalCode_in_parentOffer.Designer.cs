@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BabySitting.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241201165018_added_postalCode_in_parentOffer")]
+    [Migration("20241201204631_added_postalCode_in_parentOffer")]
     partial class added_postalCode_in_parentOffer
     {
         /// <inheritdoc />
@@ -72,6 +72,10 @@ namespace BabySitting.Api.Migrations
 
                     b.Property<int>("NumberOfChildren")
                         .HasColumnType("integer");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int[]>("PreferebleSkills")
                         .IsRequired()

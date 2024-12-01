@@ -70,6 +70,10 @@ namespace BabySitting.Api.Migrations
                     b.Property<int>("NumberOfChildren")
                         .HasColumnType("integer");
 
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int[]>("PreferebleSkills")
                         .IsRequired()
                         .HasColumnType("integer[]");
