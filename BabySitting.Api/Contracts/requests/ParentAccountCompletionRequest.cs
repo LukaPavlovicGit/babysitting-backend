@@ -11,6 +11,8 @@ public class ParentAccountCompletionRequest
 
     public required Guid UserId { get; set; }
 
+    public required string PostalCode { get; set; }
+
     public required string FirstName { get; set; }
 
     public required string AddressName { get; set; }

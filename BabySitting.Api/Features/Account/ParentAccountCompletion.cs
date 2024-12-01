@@ -11,25 +11,26 @@ using MediatR;
 namespace BabySitting.Api.Features.Account;
 public class ParentAccountCompletion
 {
-    public class Command : IRequest<Result<string>>
+    public class Command(ParentAccountCompletionRequest request) : IRequest<Result<string>>
     {
-        public string PhotoUrl { get; set; } = string.Empty;
-        public bool SubscribeToJobNotifications { get; set; } = false;
-        public required Guid UserId { get; set; }
-        public required string FirstName { get; set; }
-        public required string AddressName { get; set; }
-        public required double AddressLongitude { get; set; }
-        public required double AddressLatitude { get; set; }
-        public required List<LanguagesEnum> FamilySpeakingLanguages { get; set; }
-        public required int NumberOfChildren { get; set; }
-        public required List<ChildAgeCategoryEnum> ChildrenAgeCategories { get; set; }
-        public required List<ChildCharacteristicsEnum> ChildrenCharacteristics { get; set; }
-        public required string FamilyDescription { get; set; }
-        public required List<SkillsEnum> PreferebleSkills { get; set; }
-        public required CurrencyEnum Currency { get; set; }
-        public required int Rate { get; set; }
-        public required JobLocationEnum JobLocation { get; set; }
-        public required Schedule Schedule { get; set; }
+        public string PhotoUrl { get; set; } = request.PhotoUrl;
+        public bool SubscribeToJobNotifications { get; set; } = request.SubscribeToJobNotifications;
+        public Guid UserId { get; set; } = request.UserId;
+        public string FirstName { get; set; } = request.FirstName;
+        public string PostalCode { get; set; } = request.PostalCode;
+        public string AddressName { get; set; } = request.AddressName;
+        public double AddressLongitude { get; set; } = request.AddressLongitude;
+        public double AddressLatitude { get; set; } = request.AddressLatitude;
+        public List<LanguagesEnum> FamilySpeakingLanguages { get; set; } = request.FamilySpeakingLanguages;
+        public int NumberOfChildren { get; set; } = request.NumberOfChildren;
+        public List<ChildAgeCategoryEnum> ChildrenAgeCategories { get; set; } = request.ChildrenAgeCategories;
+        public List<ChildCharacteristicsEnum> ChildrenCharacteristics { get; set; } = request.ChildrenCharacteristics;
+        public string FamilyDescription { get; set; } = request.FamilyDescription;
+        public List<SkillsEnum> PreferebleSkills { get; set; } = request.PreferebleSkills;
+        public CurrencyEnum Currency { get; set; } = request.Currency;
+        public int Rate { get; set; } = request.Rate;
+        public JobLocationEnum JobLocation { get; set; } = request.JobLocation;
+        public Schedule Schedule { get; set; } = request.Schedule;
     }
 
     public class Validator : AbstractValidator<Command>
@@ -60,24 +61,7 @@ public class ParentAccountCompletion
                 return Result.Failure<string>(new Error("AccountRegistrationRequest.validation", validationResult.ToString()));
             }
 
-            var parentOffer = new ParentOffer
-            {
-                UserId = request.UserId,
-                FirstName = request.FirstName,
-                AddressName = request.AddressName,
-                AddressLatitude = request.AddressLatitude,
-                AddressLongitude = request.AddressLongitude,
-                FamilySpeakingLanguages = request.FamilySpeakingLanguages,
-                NumberOfChildren = request.NumberOfChildren,
-                ChildrenAgeCategories = request.ChildrenAgeCategories,
-                ChildrenCharacteristics = request.ChildrenCharacteristics,
-                FamilyDescription = request.FamilyDescription,
-                PreferebleSkills = request.PreferebleSkills,
-                Currency = request.Currency,
-                Rate = request.Rate,
-                JobLocation = request.JobLocation,
-                Schedule = request.Schedule,
-            };
+            var parentOffer = new ParentOffer(request);
 
 
             _dbContext.Add(parentOffer);
@@ -100,7 +84,7 @@ public class ParentAccountCompletionEndpoint : ICarterModule
     {
         app.MapPost("/api/account/account-complete", async (ParentAccountCompletionRequest request, ISender sender) =>
         {
-            var command = request.Adapt<ParentAccountCompletion.Command>();
+            var command = new ParentAccountCompletion.Command(request);
             var result = await sender.Send(command);
             if(result.IsFailure)
             {
