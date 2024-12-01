@@ -3,10 +3,7 @@
 namespace BabySitting.Api.Contracts.responses;
 public class AccountExistenceCheckResponse
 {
-    public AccountExistenceCheckResponse()
-    {
-
-    }
+    public AccountExistenceCheckResponse() { }
 
     public AccountExistenceCheckResponse(string id)
     {

@@ -12,12 +12,12 @@ namespace BabySitting.Api.Features.Account;
 public static class AccountRegistration
 {
 
-    public class Command : IRequest<Result<Guid>>
+    public class Command(AccountRegistrationRequest Request) : IRequest<Result<Guid>>
     {
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
+        public string Email { get; set; } = Request.Email;
+        public string Password { get; set; } = Request.Password;
+        public string FirstName { get; set; } = Request.FirstName;
+        public string LastName { get; set; } = Request.LastName;
     }
 
     public class Validator : AbstractValidator<Command>
@@ -32,28 +32,19 @@ public static class AccountRegistration
     }
 
 
-    internal sealed class Handler : IRequestHandler<Command, Result<Guid>>
+    internal sealed class Handler(
+        ApplicationDbContext dbContext,
+        IValidator<AccountRegistration.Command> validator,
+        UserManager<User> userManager,
+        ISenderEmail emailSender,
+        IConfiguration configuration
+        ) : IRequestHandler<Command, Result<Guid>>
     {
-        private readonly ApplicationDbContext _dbContext;
-        private readonly IValidator<Command> _validator;
-        private readonly UserManager<User> _userManager;
-        private readonly ISenderEmail _emailSender;
-        private readonly IConfiguration _configuration;
-
-        public Handler(
-            ApplicationDbContext dbContext,
-            IValidator<Command> validator,
-            UserManager<User> userManager,
-            ISenderEmail emailSender,
-            IConfiguration configuration
-        )
-        {
-            _dbContext = dbContext;
-            _validator = validator;
-            _userManager = userManager;
-            _emailSender = emailSender;
-            _configuration = configuration;
-        }
+        private readonly ApplicationDbContext _dbContext = dbContext;
+        private readonly IValidator<Command> _validator = validator;
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly ISenderEmail _emailSender = emailSender;
+        private readonly IConfiguration _configuration = configuration;
 
         public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
         {
@@ -65,14 +56,7 @@ public static class AccountRegistration
                 return Result.Failure<Guid>(new Error("AccountRegistrationRequest.validation", validationResult.ToString()));
             }
 
-            var user = new User
-            {
-                Id = Guid.NewGuid().ToString(),
-                Email = request.Email,
-                UserName = request.Email,
-                FirstName = request.FirstName,
-                LastName = request.LastName
-            };
+            var user = new User(request);
 
             _dbContext.Add(user);
 
@@ -97,7 +81,7 @@ public class AccountRegistrationEndpoint : ICarterModule
         app.MapPost("/api/account/register", async (AccountRegistrationRequest request, ISender sender) =>
         {
 
-            var command = request.Adapt<AccountRegistration.Command>();
+            var command = new AccountRegistration.Command(request);
             var result = await sender.Send(command);
             if (result.IsFailure)
             {
