@@ -89,5 +89,7 @@ app.UseHttpsRedirection();
 
 app.MapCarter();
 
+app.MapSignalR();
+
 app.Run();
 
