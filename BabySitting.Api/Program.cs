@@ -55,6 +55,11 @@ builder.Services.AddValidatorsFromAssembly(assembly);
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
+builder.Services.AddSignalR()
+    .AddJsonProtocol(options => {
+        options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+    });
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
