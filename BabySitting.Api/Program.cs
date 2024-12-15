@@ -89,7 +89,7 @@ app.UseHttpsRedirection();
 
 app.MapCarter();
 
-app.MapSignalR();
+app.MapHub<ChatHub>("/chat");
 
 app.Run();
 
