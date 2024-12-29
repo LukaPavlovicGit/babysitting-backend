@@ -48,29 +48,26 @@ public static class AccountRegistration
 
         public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
         {
-
             var validationResult = _validator.Validate(request);
 
             if (!validationResult.IsValid)
             {
-                return Result.Failure<Guid>(new Error("AccountRegistrationRequest.validation", validationResult.ToString()));
+                throw new ApplicationException(validationResult.ToString());
             }
 
             var user = new User(request);
-
             _dbContext.Add(user);
 
             var result = await _userManager.CreateAsync(user, request.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                await _emailSender.SendConfirmationEmail(request.Email, user);
-                return Result.Success(Guid.Parse(user.Id));
+                throw new ApplicationException(result.ToString());
             }
 
-            return Result.Failure<Guid>(new Error("AccountRegistrationRequest.create", result.ToString()));
+            await _emailSender.SendConfirmationEmail(request.Email, user);
+            return Result.Success(Guid.Parse(user.Id));
         }
-
     }
 }
 
@@ -80,15 +77,9 @@ public class AccountRegistrationEndpoint : ICarterModule
     {
         app.MapPost("/api/account/register", async (AccountRegistrationRequest request, ISender sender) =>
         {
-
             var command = new AccountRegistration.Command(request);
             var result = await sender.Send(command);
-            if (result.IsFailure)
-            {
-                return Results.BadRequest(result.Error);
-            }
             return Results.Ok(result.Value);
         });
     }
-
 }

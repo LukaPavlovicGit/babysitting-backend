@@ -12,6 +12,8 @@ using BabySitting.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -80,6 +82,8 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
+
+app.UseExceptionHandler();
 
 app.UseMiddleware<RequestContextLoggingMiddleware>();
 
