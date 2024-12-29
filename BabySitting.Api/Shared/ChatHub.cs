@@ -7,7 +7,7 @@ public class ChatHub : Hub
     {
         await Clients.Client(Context.ConnectionId).SendAsync("ReceiveMessage", user, message);
     }
-
+                                    
     public async Task MarkMessageAsRead(string user, string messageId)
     {
         await Clients.User(user).SendAsync("MessageRead", messageId);
