@@ -5,17 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BabySitting.Api.Database;
 
-public class ApplicationDbContext : IdentityDbContext<User>
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<User>(options)
 {
 
-    public DbSet<ParentOffer> ParentOffers { get; set; }
-    public DbSet<Schedule> Schedules { get; set; }
-
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    {
-
-    }
+    public required DbSet<ParentOffer> ParentOffers { get; set; }
+    public required DbSet<Schedule> Schedules { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
