@@ -41,10 +41,6 @@ public class CheckUserExistsEndpoint : ICarterModule
         {
             var query = new GetAccountByEmail.Query { Email = email };
             var result = await sender.Send(query);
-            if (result.IsFailure)
-            {
-                return Results.NotFound(result.Error);
-            }
             return Results.Ok(result.Value);
         });
     }
