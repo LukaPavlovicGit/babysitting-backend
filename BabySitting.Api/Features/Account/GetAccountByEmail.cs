@@ -25,7 +25,8 @@ public class GetAccountByEmail
                 .Users
                 .AsNoTracking()
                 .Where(u => string.Equals(u.Email, request.Email, StringComparison.OrdinalIgnoreCase))
-                .FirstOrDefaultAsync(cancellationToken) ?? throw new ApplicationException("User not found");
+                .FirstOrDefaultAsync(cancellationToken) 
+                ?? throw new ApplicationException("User not found");
                 
             return new AccountDetailsResponse(user.Id, user.Email!, user.FirstName, user.LastName);
         }
