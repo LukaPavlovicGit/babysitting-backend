@@ -31,7 +31,6 @@ public static class     AccountRegistration
         }
     }
 
-
     internal sealed class Handler(
         ApplicationDbContext dbContext,
         IValidator<AccountRegistration.Command> validator,
