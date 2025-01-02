@@ -1,6 +1,12 @@
-@BabySitting.Api_HostAddress = http://localhost:5052
+@BabySitting.Api_HostAddress = http://localhost:5001
 
-GET {{BabySitting.Api_HostAddress}}/weatherforecast/
-Accept: application/json
 
 ###
+
+GET {{BabySitting.Api_HostAddress}}/api/account/get-account-by-email/test@test.com
+Accept: application/json
+
+
+
+
+
