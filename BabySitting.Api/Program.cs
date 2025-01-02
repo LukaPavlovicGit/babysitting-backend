@@ -10,7 +10,21 @@ using BabySitting.Api.Domain.Enums;
 using Serilog;
 using BabySitting.Api.Middleware;
 
+const string Development_CORS_POLICY = "DevelopmentCorsPolicy";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: Development_CORS_POLICY,
+                      policy  =>
+                      {
+                          policy.WithOrigins("http://localhost:3000",
+                                             "http://www.example.com")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                      });
+});
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -41,8 +55,6 @@ builder.Services.AddIdentity<User, IdentityRole>(
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-
-
 
 builder.Services.AddTransient<ISenderEmail, EmailSender>();
 
@@ -82,6 +94,8 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
+
+app.UseCors(Development_CORS_POLICY);
 
 app.UseExceptionHandler();
 
