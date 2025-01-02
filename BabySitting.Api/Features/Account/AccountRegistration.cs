@@ -9,15 +9,15 @@ using BabySitting.Api.Domain.Entities;
 using BabySitting.Api.Contracts.requests;
 
 namespace BabySitting.Api.Features.Account;
-public static class AccountRegistration
+public static class     AccountRegistration
 {
 
-    public class Command(AccountRegistrationRequest Request) : IRequest<Result<Guid>>
+    public class Command(AccountRegistrationRequest request) : IRequest<Result<Guid>>
     {
-        public string Email { get; set; } = Request.Email;
-        public string Password { get; set; } = Request.Password;
-        public string FirstName { get; set; } = Request.FirstName;
-        public string LastName { get; set; } = Request.LastName;
+        public string Email { get; set; } = request.Email;
+        public string Password { get; set; } = request.Password;
+        public string FirstName { get; set; } = request.FirstName;
+        public string LastName { get; set; } = request.LastName;
     }
 
     public class Validator : AbstractValidator<Command>
