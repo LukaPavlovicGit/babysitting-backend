@@ -24,7 +24,7 @@ public class GetAccountByEmail
             var user = await _dbContext
                 .Users
                 .AsNoTracking()
-                .Where(u => string.Equals(u.Email, request.Email, StringComparison.OrdinalIgnoreCase))
+                .Where(u => u.Email!.ToLower() == request.Email.ToLower())
                 .FirstOrDefaultAsync(cancellationToken) 
                 ?? throw new ApplicationException("User not found");
                 
