@@ -9,7 +9,7 @@ using BabySitting.Api.Domain.Entities;
 using BabySitting.Api.Contracts.requests;
 
 namespace BabySitting.Api.Features.Account;
-public static class     AccountRegistration
+public class AccountRegistration
 {
 
     public class Command(AccountRegistrationRequest request) : IRequest<Result<Guid>>

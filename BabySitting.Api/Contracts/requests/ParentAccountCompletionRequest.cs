@@ -3,7 +3,7 @@ using BabySitting.Api.Domain.Enums;
 
 namespace BabySitting.Api.Contracts.requests;
 
-public class ParentAccountCompletionRequest
+public sealed class ParentAccountCompletionRequest
 {
     public string PhotoUrl { get; set; } = string.Empty;
 
