@@ -9,14 +9,18 @@ using Microsoft.EntityFrameworkCore;
 using BabySitting.Api.Domain.Enums;
 using Serilog;
 using BabySitting.Api.Middleware;
+using BabySitting.Api.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
-const string Development_CORS_POLICY = "DevelopmentCorsPolicy";
+const string DevelopmentCorsPolicy = "DevelopmentCorsPolicy";
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: Development_CORS_POLICY,
+    options.AddPolicy(name: DevelopmentCorsPolicy,
                       policy  =>
                       {
                           policy.WithOrigins("http://localhost:3000",
@@ -26,9 +30,14 @@ builder.Services.AddCors(options =>
                       });
 });
 
+builder.Services.AddSingleton<TokenProvider>();
+
 builder.Services.AddProblemDetails();
+
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(
@@ -39,8 +48,18 @@ builder.Services.AddStackExchangeRedisCache(options =>
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddAuthentication()
-    .AddBearerToken(IdentityConstants.BearerScheme);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!)),
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 
 builder.Services.AddIdentity<User, IdentityRole>(
     options =>
@@ -95,7 +114,11 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-app.UseCors(Development_CORS_POLICY);
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.UseCors(DevelopmentCorsPolicy);
 
 app.UseExceptionHandler();
 
