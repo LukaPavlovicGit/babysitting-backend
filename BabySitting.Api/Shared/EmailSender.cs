@@ -48,7 +48,7 @@ public class EmailSender : ISenderEmail
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
         string baseUrl = _configuration["AppBaseUrl"]!;
-        var confirmationLink = $"{baseUrl}/api/account/emailConfirmation?UserId={user.Id}&Token={encodedToken}";
+        var confirmationLink = $"{baseUrl}/api/account/email-confirmation?UserId={user.Id}&Token={encodedToken}";
         string encodedLink = HtmlEncoder.Default.Encode(confirmationLink);
 
         await SendEmailAsync(
