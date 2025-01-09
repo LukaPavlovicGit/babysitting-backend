@@ -7,40 +7,63 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace BabySitting.Api.Domain.Entities;
 
 [Table("ParentOffers")]
-public class ParentOffer(ParentAccountCompletion.Command request)
+public class ParentOffer
 {
     [Key]
     public int Id { get; set; }
 
-    public Guid UserId { get; set; } = request.UserId;
+    public Guid UserId { get; set; } = Guid.Empty;
 
-    public string FirstName { get; set; } = request.FirstName;
+    public string FirstName { get; set; } = string.Empty;
 
-    public string PostalCode { get; set; } = request.PostalCode;
+    public string PostalCode { get; set; } = string.Empty;
 
-    public string AddressName { get; set; } = request.AddressName;
+    public string AddressName { get; set; } = string.Empty;
+    
+    public double AddressLongitude { get; set; } = 0;
+    
+    public double AddressLatitude { get; set; } = 0;
 
-    public double AddressLongitude { get; set; } = request.AddressLongitude;
+    public List<LanguagesEnum> FamilySpeakingLanguages { get; set; } = [];
 
-    public double AddressLatitude { get; set; } = request.AddressLatitude;
+    public int NumberOfChildren { get; set; }
 
-    public List<LanguagesEnum> FamilySpeakingLanguages { get; set; } = request.FamilySpeakingLanguages;
+    public List<ChildAgeCategoryEnum> ChildrenAgeCategories { get; set; } = [];
 
-    public int NumberOfChildren { get; set; } = request.NumberOfChildren;
+    public List<ChildCharacteristicsEnum> ChildrenCharacteristics { get; set; } = [];
 
-    public List<ChildAgeCategoryEnum> ChildrenAgeCategories { get; set; } = request.ChildrenAgeCategories;
+    public string FamilyDescription {  get; set; } = string.Empty;
 
-    public List<ChildCharacteristicsEnum> ChildrenCharacteristics { get; set; } = request.ChildrenCharacteristics;
+    public List<SkillsEnum> PreferebleSkills { get; set; } = [];
 
-    public string FamilyDescription { get; set; } = request.FamilyDescription;
+    public CurrencyEnum Currency { get; set; } = CurrencyEnum.RSD;
 
-    public List<SkillsEnum> PreferebleSkills { get; set; } = request.PreferebleSkills;
+    public int Rate { get; set; } 
 
-    public CurrencyEnum Currency { get; set; } = request.Currency;
+    public JobLocationEnum JobLocation { get; set; } = JobLocationEnum.AT_PARENT_HOME;
 
-    public int Rate { get; set; } = request.Rate;
+    public Schedule Schedule { get; set; } = new Schedule();
 
-    public JobLocationEnum JobLocation { get; set; } = request.JobLocation;
+    public ParentOffer(ParentAccountCompletion.Command request)
+    {
+        UserId = request.UserId!;
+        FirstName = request.FirstName;
+        PostalCode = request.PostalCode;
+        AddressName = request.AddressName;
+        AddressLatitude = request.AddressLatitude;
+        AddressLongitude = request.AddressLongitude;
+        FamilySpeakingLanguages = request.FamilySpeakingLanguages;
+        NumberOfChildren = request.NumberOfChildren;
+        ChildrenAgeCategories = request.ChildrenAgeCategories;
+        ChildrenCharacteristics = request.ChildrenCharacteristics;
+        FamilyDescription = request.FamilyDescription;
+        PreferebleSkills = request.PreferebleSkills;
+        Currency = request.Currency;
+        Rate = request.Rate;
+        JobLocation = request.JobLocation;
+        Schedule = request.Schedule;
+    }
 
-    public Schedule Schedule { get; set; } = request.Schedule;
+    public ParentOffer() { }
+
 }

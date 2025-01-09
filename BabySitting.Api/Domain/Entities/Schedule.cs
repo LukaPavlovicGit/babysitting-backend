@@ -43,4 +43,6 @@ public class Schedule
     public bool SundayAfternoon { get; set; } = false;
     public bool SundayEvening { get; set; } = false;
     public bool SundayNight { get; set; } = false;
+
+    public Schedule() { }
 }

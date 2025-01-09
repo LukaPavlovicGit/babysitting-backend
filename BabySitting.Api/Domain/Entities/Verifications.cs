@@ -36,4 +36,6 @@ public class Verifications
 
     public DateTime LinkedInAccountVerifiedAt { get; set; }
 
+    public Verifications() { }
+
 }

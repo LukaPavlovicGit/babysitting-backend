@@ -24,4 +24,6 @@ public class User : IdentityUser
         FirstName = command.FirstName;
         LastName = command.LastName;
     }
+
+    public User() { }
 }
