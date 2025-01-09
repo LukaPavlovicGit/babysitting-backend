@@ -1,6 +1,5 @@
 ﻿using BabySitting.Api.Database;
 using BabySitting.Api.Domain.Entities;
-using BabySitting.Api.Shared;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -10,50 +9,47 @@ using System.Text;
 namespace BabySitting.Api.Features.Account;
 public class AccountActivation
 {
-    public class Command : IRequest<Result<string>>
+    internal sealed record AccountActivationResponse(bool IsSuccess, string Message);
+
+    internal class Command : IRequest<AccountActivationResponse>
     {
         public string UserId { get; set; } = string.Empty;
         public string Token { get; set; } = string.Empty;
     }
 
-
-    internal sealed class Handler : IRequestHandler<Command, Result<string>>
+    internal sealed class Handler(
+        ApplicationDbContext dbContext,
+        UserManager<User> userManager,
+        ILogger<Handler> logger
+    ) : IRequestHandler<Command, AccountActivationResponse>
     {
-        private readonly ApplicationDbContext _dbContext;
-        private readonly UserManager<User> _userManager;
-        private readonly ILogger<Handler> _logger;
+        private readonly ApplicationDbContext _dbContext = dbContext;
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly ILogger<Handler> _logger = logger;
 
-        public Handler(ApplicationDbContext dbContext, UserManager<User> userManager, ILogger<Handler> logger)
-        {
-            _dbContext = dbContext;
-            _userManager = userManager;
-            _logger = logger;
-        }
-
-        public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<AccountActivationResponse> Handle(Command request, CancellationToken cancellationToken)
         {
             if (request.UserId == null || request.Token == null)
             {
-                return Result.Failure<string>(new Error("EmailConfirmationRequest", "UserId or Token is null"));
+                throw new ApplicationException("EmailConfirmationRequest: UserId or Token is null");
             }
 
             var user = await _userManager.FindByIdAsync(request.UserId);
             if (user == null)
             {
-                return Result.Failure<string>(new Error("EmailConfirmationRequest", "User not found by UserId"));
+                throw new ApplicationException("EmailConfirmationRequest: User not found by UserId");
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, request.Token);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                return Result.Success("Thank you for confirming your email");
+                throw new ApplicationException($"EmailConfirmationRequest: Email cannot be confirmed: {result.ToString()}");
             }
 
-            return Result.Failure<string>(new Error("EmailConfirmationRequest", $"Email cannot be confirmed: {result.ToString()}"));
+            return new AccountActivationResponse(true, "Thank you for confirming your email");
         }
     }
 }
-
 
 public class EmailCOnfirmationEndpoint : ICarterModule
 {
@@ -65,11 +61,7 @@ public class EmailCOnfirmationEndpoint : ICarterModule
             var decodedToken = Encoding.UTF8.GetString(decodedBytes);
             var command = new AccountActivation.Command { UserId = userId, Token = decodedToken };
             var result = await sender.Send(command);
-            if (result.IsFailure)
-            {
-                return Results.NotFound(result.Error);
-            }
-            return Results.Ok(result.Value);
+            return Results.Ok(result);
         });
     }
 

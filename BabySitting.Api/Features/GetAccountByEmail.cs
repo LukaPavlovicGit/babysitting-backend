@@ -1,5 +1,4 @@
 ﻿using BabySitting.Api.Database;
-using BabySitting.Api.Shared;
 using Carter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,16 +9,16 @@ public class GetAccountByEmail
 {   
     internal record AccountDetailsResponse(string UserId, string Email, string FirstName, string LastName);
     
-    internal class Query : IRequest<Result<AccountDetailsResponse>>
+    internal class Query : IRequest<AccountDetailsResponse>
     {
         public string Email { get; set; } = string.Empty;
     }
 
-    internal sealed class Handler(ApplicationDbContext dbContext) : IRequestHandler<Query, Result<AccountDetailsResponse>>
+    internal sealed class Handler(ApplicationDbContext dbContext) : IRequestHandler<Query, AccountDetailsResponse>
     {
         private readonly ApplicationDbContext _dbContext = dbContext;
 
-        public async Task<Result<AccountDetailsResponse>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<AccountDetailsResponse> Handle(Query request, CancellationToken cancellationToken)
         {
             var user = await _dbContext
                 .Users
@@ -41,7 +40,7 @@ public class CheckUserExistsEndpoint : ICarterModule
         {
             var query = new GetAccountByEmail.Query { Email = email };
             var result = await sender.Send(query);
-            return Results.Ok(result.Value);
+            return Results.Ok(result);
         });
     }
 }

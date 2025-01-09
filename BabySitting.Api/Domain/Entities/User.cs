@@ -1,6 +1,5 @@
 ﻿using BabySitting.Api.Domain.Enums;
 using BabySitting.Api.Features.Account;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace BabySitting.Api.Domain.Entities;
@@ -25,6 +24,4 @@ public class User : IdentityUser
         FirstName = command.FirstName;
         LastName = command.LastName;
     }
-
-    public User() { }
 }
