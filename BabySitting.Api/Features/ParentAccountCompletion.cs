@@ -98,7 +98,7 @@ public class ParentAccountCompletionEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/account/account-complete", async (ParentAccountCompletion.ParentAccountCompletionRequest request, ISender sender) =>
+        app.MapPost("/api/account/parent-account-complete", async (ParentAccountCompletion.ParentAccountCompletionRequest request, ISender sender) =>
         {
             var command = new ParentAccountCompletion.Command(request);
             var result = await sender.Send(command);
