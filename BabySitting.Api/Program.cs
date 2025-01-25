@@ -79,6 +79,10 @@ internal class Program
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+        builder.Services.AddHttpContextAccessor();
+        
+        builder.Services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
+
         builder.Services.AddTransient<ISenderEmail, EmailSender>();
 
         var assembly = typeof(Program).Assembly;
