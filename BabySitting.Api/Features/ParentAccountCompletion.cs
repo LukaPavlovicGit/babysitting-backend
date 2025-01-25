@@ -54,7 +54,7 @@ public class ParentAccountCompletion
         public Schedule Schedule { get; set; } = request.Schedule;
     }
 
-    internal class Validator : AbstractValidator<Command>
+    public class Validator : AbstractValidator<Command>
     {
         public Validator()
         {
@@ -80,6 +80,12 @@ public class ParentAccountCompletion
                 throw new ApplicationException(validationResult.ToString());
             }
 
+            var user = await _dbContext.Users.FindAsync(request.UserId);
+            if (user == null)
+            {
+                throw new ApplicationException("User not found");
+            }
+
             var parentOffer = new ParentOffer(request);
             _dbContext.Add(parentOffer);
 
@@ -87,6 +93,16 @@ public class ParentAccountCompletion
             if(result != 2)
             {
                 throw new ApplicationException("Failed to save changes");
+            }
+
+            user.Role = RoleEnum.PARENT;
+            user.IsAccountCompleted = true;
+            result = await _dbContext.SaveChangesAsync();
+
+            if(result != 1)
+            {
+                _dbContext.Remove(parentOffer);
+                throw new ApplicationException("Failed to save changes on user entity");
             }
 
             return new ParentAccountCompletionResponse(true);

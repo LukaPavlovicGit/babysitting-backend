@@ -21,7 +21,7 @@ public class AccountRegistration
         public string LastName { get; set; } = request.LastName;
     }
 
-    internal class Validator : AbstractValidator<Command>
+    public class Validator : AbstractValidator<Command>
     {
         public Validator()
         {
