@@ -9,7 +9,6 @@ namespace BabySitting.Api.Features.Account;
 public class ParentAccountCompletion
 {
     public sealed record ParentAccountCompletionRequest(
-        Guid UserId,
         string PostalCode,
         string FirstName,
         string AddressName,
@@ -36,7 +35,6 @@ public class ParentAccountCompletion
     {
         public string PhotoUrl { get; set; } = request.PhotoUrl;
         public bool SubscribeToJobNotifications { get; set; } = request.SubscribeToJobNotifications;
-        public Guid UserId { get; set; } = request.UserId;
         public string FirstName { get; set; } = request.FirstName;
         public string PostalCode { get; set; } = request.PostalCode;
         public string AddressName { get; set; } = request.AddressName;
@@ -65,11 +63,13 @@ public class ParentAccountCompletion
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IValidator<Command> _validator;
+        private readonly ICurrentUserAccessor _currentUser;
 
-        public Handler(ApplicationDbContext dbContext, IValidator<Command> validator)
+        public Handler(ApplicationDbContext dbContext, IValidator<Command> validator, ICurrentUserAccessor currentUser)
         {
             _dbContext = dbContext;
             _validator = validator;
+            _currentUser = currentUser;
         }
 
         public async Task<ParentAccountCompletionResponse> Handle(Command request, CancellationToken cancellationToken)
@@ -80,7 +80,7 @@ public class ParentAccountCompletion
                 throw new ApplicationException(validationResult.ToString());
             }
 
-            var user = await _dbContext.Users.FindAsync(request.UserId);
+            var user = await _dbContext.Users.FindAsync(_currentUser.User.Id);
             if (user == null)
             {
                 throw new ApplicationException("User not found");
@@ -119,6 +119,6 @@ public class ParentAccountCompletionEndpoint : ICarterModule
             var command = new ParentAccountCompletion.Command(request);
             var result = await sender.Send(command);
             return Results.Ok(result);
-        });
+        }).RequireAuthorization();
     }
 }
