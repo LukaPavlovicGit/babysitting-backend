@@ -12,7 +12,7 @@ public class ParentOffer
     [Key]
     public int Id { get; set; }
 
-    public Guid UserId { get; set; } = Guid.Empty;
+    public string UserId { get; set; } = string.Empty;
 
     public string FirstName { get; set; } = string.Empty;
 
@@ -44,9 +44,13 @@ public class ParentOffer
 
     public Schedule Schedule { get; set; } = new Schedule();
 
+    public string PhotoUrl { get; set; } = string.Empty;
+
+    public bool SubscribeToJobNotifications { get; set; } = false;
+
     public ParentOffer(ParentAccountCompletion.Command request)
     {
-        UserId = request.UserId!;
+        UserId = request.UserId;
         FirstName = request.FirstName;
         PostalCode = request.PostalCode;
         AddressName = request.AddressName;
