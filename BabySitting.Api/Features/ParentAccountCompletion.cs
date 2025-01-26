@@ -31,8 +31,9 @@ public class ParentAccountCompletion
 
     internal sealed record ParentAccountCompletionResponse(bool IsAccountCompleted);
 
-    public class Command(ParentAccountCompletionRequest request) : IRequest<ParentAccountCompletionResponse>
+    public class Command(ParentAccountCompletionRequest request, string userId) : IRequest<ParentAccountCompletionResponse>
     {
+        public string UserId { get; set; } = userId;
         public string PhotoUrl { get; set; } = request.PhotoUrl;
         public bool SubscribeToJobNotifications { get; set; } = request.SubscribeToJobNotifications;
         public string FirstName { get; set; } = request.FirstName;
@@ -63,13 +64,11 @@ public class ParentAccountCompletion
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IValidator<Command> _validator;
-        private readonly ICurrentUserAccessor _currentUser;
 
-        public Handler(ApplicationDbContext dbContext, IValidator<Command> validator, ICurrentUserAccessor currentUser)
+        public Handler(ApplicationDbContext dbContext, IValidator<Command> validator)
         {
             _dbContext = dbContext;
             _validator = validator;
-            _currentUser = currentUser;
         }
 
         public async Task<ParentAccountCompletionResponse> Handle(Command request, CancellationToken cancellationToken)
@@ -79,8 +78,8 @@ public class ParentAccountCompletion
             {
                 throw new ApplicationException(validationResult.ToString());
             }
-
-            var user = await _dbContext.Users.FindAsync(_currentUser.User.Id);
+            
+            var user = await _dbContext.Users.FindAsync(request.UserId);
             if (user == null)
             {
                 throw new ApplicationException("User not found");
@@ -114,9 +113,9 @@ public class ParentAccountCompletionEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/account/parent-account-complete", async (ParentAccountCompletion.ParentAccountCompletionRequest request, ISender sender) =>
+        app.MapPost("/api/account/parent-account-complete", async (ParentAccountCompletion.ParentAccountCompletionRequest request, ICurrentUserAccessor currentUser, ISender sender) =>
         {
-            var command = new ParentAccountCompletion.Command(request);
+            var command = new ParentAccountCompletion.Command(request, currentUser.User.Id);
             var result = await sender.Send(command);
             return Results.Ok(result);
         }).RequireAuthorization();
