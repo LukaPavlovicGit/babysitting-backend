@@ -78,7 +78,7 @@ public class ParentAccountCompletion
             {
                 throw new ApplicationException(validationResult.ToString());
             }
-            
+
             var user = await _dbContext.Users.FindAsync(request.UserId);
             if (user == null)
             {
@@ -101,7 +101,7 @@ public class ParentAccountCompletion
             if(result != 1)
             {
                 _dbContext.Remove(parentOffer);
-                throw new ApplicationException("Failed to save changes on user entity");
+                throw new ApplicationException("Failed to save changes on user entity while completing parent account");
             }
 
             return new ParentAccountCompletionResponse(true);
