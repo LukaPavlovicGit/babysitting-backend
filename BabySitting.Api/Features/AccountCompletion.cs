@@ -119,7 +119,7 @@ public class AccountCompletionEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/account/completion", async (AccountCompletion.AccountCompletionRequest request, ICurrentUserAccessor currentUser, ISender sender) =>
+        app.MapPost("/api/account/completion", async (AccountCompletion.AccountCompletionRequest request, ICurrentUserAccessor currentUser, ISender sender) =>
         {
             var command = new AccountCompletion.Command(request);
             var result = await sender.Send(command);
