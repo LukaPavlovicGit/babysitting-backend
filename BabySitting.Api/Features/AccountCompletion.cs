@@ -101,7 +101,8 @@ public class AccountCompletion
 
             user.IsAccountCompleted = true;
             user.Role = request.CreatedByRole;
-
+            _dbContext.Update(user);
+            
             result = await _dbContext.SaveChangesAsync(cancellationToken);
             if(result != 1)
             {
