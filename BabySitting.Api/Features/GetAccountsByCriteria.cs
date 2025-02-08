@@ -66,10 +66,9 @@ public class GetAccountsByCriteria
 
 public class GetAccountsByCriteriaEndpoint : ICarterModule
 {
-
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/accounts/get-by-criteria", async (GetAccountsByCriteria.GetAccountsByCriteriaRequest request, ISender sender) =>
+        app.MapPost("/api/account/get-by-criteria", async (GetAccountsByCriteria.GetAccountsByCriteriaRequest request, ISender sender) =>
         {
             var command = new GetAccountsByCriteria.Command(request);
             var result = await sender.Send(command);
