@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace BabySitting.Api.Domain.Entities;
 
 [Table("Verifications")]
-public class Verifications
+public class Verification
 {
     [Key]
     public int Id { get; set; }
@@ -36,6 +36,5 @@ public class Verifications
 
     public DateTime LinkedInAccountVerifiedAt { get; set; }
 
-    public Verifications() { }
-
+    public Verification() { }
 }
