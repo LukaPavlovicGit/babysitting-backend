@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using BabySitting.Api.Domain.Enums;
 
@@ -8,7 +8,7 @@ namespace BabySitting.Api.Domain.Entities;
 public class Offer
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public RoleEnum CreatedByRole { get; set; } = RoleEnum.NONE;
     public string CreatedByUserId { get; set; } = string.Empty;
     public string AcceptedByUserId { get; set; } = string.Empty;
@@ -32,6 +32,7 @@ public class Offer
 
     public Offer(AccountCompletion.Command request)
     {
+        Id = Guid.NewGuid();
         CreatedByRole = request.CreatedByRole;
         CreatedByUserId = request.CreatedByUserId;
         FirstName = request.FirstName;
