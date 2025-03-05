@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BabySitting.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241120124944_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20250304230152_initial_migration")]
+    partial class initial_migration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +26,190 @@ namespace BabySitting.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BabySitting.Api.Entities.User", b =>
+            modelBuilder.Entity("BabySitting.Api.Domain.Entities.Offer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AcceptedByUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("AddressLatitude")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("AddressLongitude")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("AddressName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int[]>("ChildrenAgeCategories")
+                        .HasColumnType("integer[]");
+
+                    b.Property<int[]>("ChildrenCharacteristics")
+                        .HasColumnType("integer[]");
+
+                    b.Property<int>("CreatedByRole")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedByUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FamilyDescription")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("JobLocation")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("NumberOfChildren")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PhotoUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Rate")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ScheduleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int[]>("Skills")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
+                    b.Property<int[]>("SpeakingLanguages")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
+                    b.Property<bool>("SubscribeToJobNotifications")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.ToTable("Offers", "public");
+                });
+
+            modelBuilder.Entity("BabySitting.Api.Domain.Entities.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("FridayAfternoon")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("FridayEvening")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("FridayMorning")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("FridayNight")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("MondayAfternoon")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("MondayEvening")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("MondayMorning")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("MondayNight")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("SaturdayAfternoon")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("SaturdayEvening")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("SaturdayMorning")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("SaturdayNight")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("SundayAfternoon")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("SundayEvening")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("SundayMorning")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("SundayNight")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("ThursdayAfternoon")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("ThursdayEvening")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("ThursdayMorning")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("ThursdayNight")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("TuesdayAfternoon")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("TuesdayEvening")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("TuesdayMorning")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("TuesdayNight")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("WednesdayAfternoon")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("WednesdayEvening")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("WednesdayMorning")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("WednesdayNight")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Schedules", "public");
+                });
+
+            modelBuilder.Entity("BabySitting.Api.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -48,6 +231,9 @@ namespace BabySitting.Api.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsAccountCompleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -76,6 +262,9 @@ namespace BabySitting.Api.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
@@ -85,6 +274,9 @@ namespace BabySitting.Api.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
+
+                    b.Property<double>("VerificationScore")
+                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
@@ -96,6 +288,58 @@ namespace BabySitting.Api.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", "identity");
+                });
+
+            modelBuilder.Entity("BabySitting.Api.Domain.Entities.Verification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("EmailVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("EmailVerifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("FacebookAccountVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("FacebookAccountVerifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("GoogleAccountVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("GoogleAccountVerifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("GovernmentIdProvided")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("GovernmentIdProvidedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("LinkedInAccountVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("LinkedInAccountVerifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("PhonePhoneVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("PhonePhoneVerifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Verifications", "public");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -116,6 +360,9 @@ namespace BabySitting.Api.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -230,6 +477,17 @@ namespace BabySitting.Api.Migrations
                     b.ToTable("AspNetUserTokens", "identity");
                 });
 
+            modelBuilder.Entity("BabySitting.Api.Domain.Entities.Offer", b =>
+                {
+                    b.HasOne("BabySitting.Api.Domain.Entities.Schedule", "Schedule")
+                        .WithMany()
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Schedule");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -241,7 +499,7 @@ namespace BabySitting.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("BabySitting.Api.Entities.User", null)
+                    b.HasOne("BabySitting.Api.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -250,7 +508,7 @@ namespace BabySitting.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("BabySitting.Api.Entities.User", null)
+                    b.HasOne("BabySitting.Api.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -265,7 +523,7 @@ namespace BabySitting.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BabySitting.Api.Entities.User", null)
+                    b.HasOne("BabySitting.Api.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -274,7 +532,7 @@ namespace BabySitting.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("BabySitting.Api.Entities.User", null)
+                    b.HasOne("BabySitting.Api.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

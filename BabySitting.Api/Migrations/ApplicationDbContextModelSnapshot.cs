@@ -23,13 +23,17 @@ namespace BabySitting.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BabySitting.Api.Domain.Entities.ParentOffer", b =>
+            modelBuilder.Entity("BabySitting.Api.Domain.Entities.Offer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AcceptedByUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<double>("AddressLatitude")
                         .HasColumnType("double precision");
@@ -42,23 +46,23 @@ namespace BabySitting.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<int[]>("ChildrenAgeCategories")
-                        .IsRequired()
                         .HasColumnType("integer[]");
 
                     b.Property<int[]>("ChildrenCharacteristics")
-                        .IsRequired()
                         .HasColumnType("integer[]");
+
+                    b.Property<int>("CreatedByRole")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedByUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Currency")
                         .HasColumnType("integer");
 
                     b.Property<string>("FamilyDescription")
-                        .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int[]>("FamilySpeakingLanguages")
-                        .IsRequired()
-                        .HasColumnType("integer[]");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -67,7 +71,7 @@ namespace BabySitting.Api.Migrations
                     b.Property<int>("JobLocation")
                         .HasColumnType("integer");
 
-                    b.Property<int>("NumberOfChildren")
+                    b.Property<int?>("NumberOfChildren")
                         .HasColumnType("integer");
 
                     b.Property<string>("PhotoUrl")
@@ -78,28 +82,28 @@ namespace BabySitting.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int[]>("PreferebleSkills")
-                        .IsRequired()
-                        .HasColumnType("integer[]");
-
                     b.Property<int>("Rate")
                         .HasColumnType("integer");
 
                     b.Property<int>("ScheduleId")
                         .HasColumnType("integer");
 
+                    b.Property<int[]>("Skills")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
+                    b.Property<int[]>("SpeakingLanguages")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
                     b.Property<bool>("SubscribeToJobNotifications")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ScheduleId");
 
-                    b.ToTable("ParentOffers", "public");
+                    b.ToTable("Offers", "public");
                 });
 
             modelBuilder.Entity("BabySitting.Api.Domain.Entities.Schedule", b =>
@@ -283,6 +287,58 @@ namespace BabySitting.Api.Migrations
                     b.ToTable("AspNetUsers", "identity");
                 });
 
+            modelBuilder.Entity("BabySitting.Api.Domain.Entities.Verification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("EmailVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("EmailVerifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("FacebookAccountVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("FacebookAccountVerifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("GoogleAccountVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("GoogleAccountVerifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("GovernmentIdProvided")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("GovernmentIdProvidedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("LinkedInAccountVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("LinkedInAccountVerifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("PhonePhoneVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("PhonePhoneVerifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Verifications", "public");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -418,7 +474,7 @@ namespace BabySitting.Api.Migrations
                     b.ToTable("AspNetUserTokens", "identity");
                 });
 
-            modelBuilder.Entity("BabySitting.Api.Domain.Entities.ParentOffer", b =>
+            modelBuilder.Entity("BabySitting.Api.Domain.Entities.Offer", b =>
                 {
                     b.HasOne("BabySitting.Api.Domain.Entities.Schedule", "Schedule")
                         .WithMany()

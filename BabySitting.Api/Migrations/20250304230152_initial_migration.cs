@@ -5,7 +5,7 @@
 namespace BabySitting.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class added_offer_table : Migration
+    public partial class initial_migration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
