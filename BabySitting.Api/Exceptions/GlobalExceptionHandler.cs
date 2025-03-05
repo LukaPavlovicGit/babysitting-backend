@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.Features;
+using BabySitting.Api.Exceptions;
 
 internal sealed class GlobalExceptionHandler(IProblemDetailsService problemDetailsService) : IExceptionHandler
 {
@@ -14,7 +15,7 @@ internal sealed class GlobalExceptionHandler(IProblemDetailsService problemDetai
 
         httpContext.Response.StatusCode = exception switch
         {
-            ApplicationException => StatusCodes.Status400BadRequest,
+            NotFoundException => NotFoundException.StatusCode,
             _ => StatusCodes.Status500InternalServerError
         };
 

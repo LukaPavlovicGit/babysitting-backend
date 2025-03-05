@@ -1,4 +1,5 @@
 ﻿using BabySitting.Api.Database;
+using BabySitting.Api.Exceptions;
 using Carter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ public class GetAccountByEmail
                 .AsNoTracking()
                 .Where(u => u.Email != null && u.Email.ToLower() == request.Email.ToLower())
                 .FirstOrDefaultAsync(cancellationToken) 
-                ?? throw new ApplicationException("User not found");
+                ?? throw new NotFoundException("User not found");
                 
             return new AccountDetailsResponse(user.Id, user.Email!, user.FirstName, user.LastName);
         }
