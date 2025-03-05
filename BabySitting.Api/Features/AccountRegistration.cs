@@ -5,6 +5,8 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using BabySitting.Api.Domain.Entities;
+using BabySitting.Api.Exceptions;
+using ValidationException = BabySitting.Api.Exceptions.ValidationException;
 
 namespace BabySitting.Api.Features.Account;
 public class AccountRegistration
@@ -52,7 +54,7 @@ public class AccountRegistration
 
             if (!validationResult.IsValid)
             {
-                throw new ApplicationException(validationResult.ToString());
+                throw new ValidationException(validationResult.ToString());
             }
 
             var user = new User(request);
@@ -61,7 +63,7 @@ public class AccountRegistration
             var result = await _userManager.CreateAsync(user, request.Password);
             if (!result.Succeeded)
             {
-                throw new ApplicationException(result.ToString());
+                throw new UserCreationException(result.ToString());
             }
 
             await _emailSender.SendConfirmationEmail(request.Email, user);
