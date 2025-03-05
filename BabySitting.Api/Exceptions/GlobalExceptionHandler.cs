@@ -16,6 +16,8 @@ internal sealed class GlobalExceptionHandler(IProblemDetailsService problemDetai
         httpContext.Response.StatusCode = exception switch
         {
             NotFoundException => NotFoundException.StatusCode,
+            ValidationException => ValidationException.StatusCode,
+            UserCreationException => UserCreationException.StatusCode,
             _ => StatusCodes.Status500InternalServerError
         };
 
