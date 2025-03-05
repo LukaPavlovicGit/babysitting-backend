@@ -123,11 +123,11 @@ internal class Program
             }
         }
 
+        app.UseCors(DevelopmentCorsPolicy);
+
         app.UseAuthentication();
 
         app.UseAuthorization();
-
-        app.UseCors(DevelopmentCorsPolicy);
 
         app.UseExceptionHandler();
 
