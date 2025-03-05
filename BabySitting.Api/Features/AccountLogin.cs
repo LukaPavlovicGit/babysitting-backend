@@ -4,7 +4,7 @@ using BabySitting.Api.Infrastructure;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-
+using BabySitting.Api.Exceptions;
 namespace BabySitting.Api.Features.Account;
 
 public class AccountLogin
@@ -37,17 +37,17 @@ public class AccountLogin
 
             if (!result.Succeeded)
             {
-                throw new ApplicationException(result.ToString());
+                throw new UserLoginException(result.ToString());
             }
             // TODO: Handle two-factor authentication case
             if (result.RequiresTwoFactor)
             {
-                throw new ApplicationException(result.ToString());// Handle two-factor authentication case
+                throw new UserLoginException(result.ToString());// Handle two-factor authentication case
             }
             // TODO: Handle lockout scenario
             if (result.IsLockedOut)
             {
-                throw new ApplicationException(result.ToString());// Handle lockout scenario
+                throw new UserLoginException(result.ToString());// Handle lockout scenario
             }
 
             var user = await _signInManager.UserManager.FindByEmailAsync(request.Email);

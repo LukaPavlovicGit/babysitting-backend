@@ -18,6 +18,7 @@ internal sealed class GlobalExceptionHandler(IProblemDetailsService problemDetai
             NotFoundException => NotFoundException.StatusCode,
             ValidationException => ValidationException.StatusCode,
             UserCreationException => UserCreationException.StatusCode,
+            UserLoginException => UserLoginException.StatusCode,
             _ => StatusCodes.Status500InternalServerError
         };
 
