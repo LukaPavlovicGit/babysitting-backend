@@ -13,14 +13,14 @@ public class Offer
     public string CreatedByUserId { get; set; } = string.Empty;
     public string AcceptedByUserId { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
-    public string PostalCode { get; set; } = string.Empty;
+    public int PostalCode { get; set; } = -1;
     public string AddressName { get; set; } = string.Empty;
     public double AddressLongitude { get; set; } = 0;
     public double AddressLatitude { get; set; } = 0;
     public List<LanguagesEnum> SpeakingLanguages { get; set; } = [];
     public List<SkillsEnum> Skills { get; set; } = [];
     public CurrencyEnum Currency { get; set; } = CurrencyEnum.RSD;
-    public int Rate { get; set; } = 0;
+    public double Rate { get; set; } = 0;
     public JobLocationEnum JobLocation { get; set; } = JobLocationEnum.AT_PARENT_HOME;
     public Schedule Schedule { get; set; } = new Schedule();
     public string PhotoUrl { get; set; } = string.Empty;

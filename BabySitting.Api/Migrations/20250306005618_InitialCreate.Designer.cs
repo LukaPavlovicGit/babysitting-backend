@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BabySitting.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250304230152_initial_migration")]
-    partial class initial_migration
+    [Migration("20250306005618_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,11 +28,9 @@ namespace BabySitting.Api.Migrations
 
             modelBuilder.Entity("BabySitting.Api.Domain.Entities.Offer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("AcceptedByUserId")
                         .IsRequired()
@@ -81,12 +79,11 @@ namespace BabySitting.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Rate")
+                    b.Property<int>("PostalCode")
                         .HasColumnType("integer");
+
+                    b.Property<double>("Rate")
+                        .HasColumnType("double precision");
 
                     b.Property<int>("ScheduleId")
                         .HasColumnType("integer");

@@ -10,7 +10,7 @@ public class AccountCompletion
     public sealed record AccountCompletionRequest(
         RoleEnum CreatedByRole,
         string CreatedByUserId,
-        string PostalCode,
+        int PostalCode,
         string FirstName,
         string AddressName,
         double AddressLongitude,
@@ -18,7 +18,7 @@ public class AccountCompletion
         List<LanguagesEnum> SpeakingLanguages,
         List<SkillsEnum> Skills,
         CurrencyEnum Currency,
-        int Rate,
+        double Rate,
         JobLocationEnum JobLocation,
         Schedule Schedule,
         int? NumberOfChildren,
@@ -36,7 +36,7 @@ public class AccountCompletion
     {
         public RoleEnum CreatedByRole { get; set; } = request.CreatedByRole;
         public string CreatedByUserId { get; set; } = request.CreatedByUserId;
-        public string PostalCode { get; set; } = request.PostalCode;
+        public int PostalCode { get; set; } = request.PostalCode;
         public string FirstName { get; set; } = request.FirstName;
         public string AddressName { get; set; } = request.AddressName;
         public double AddressLongitude { get; set; } = request.AddressLongitude;
@@ -44,7 +44,7 @@ public class AccountCompletion
         public List<LanguagesEnum> SpeakingLanguages { get; set; } = request.SpeakingLanguages;
         public List<SkillsEnum> Skills { get; set; } = request.Skills;
         public CurrencyEnum Currency { get; set; } = request.Currency;
-        public int Rate { get; set; } = request.Rate;
+        public double Rate { get; set; } = request.Rate;
         public JobLocationEnum JobLocation { get; set; } = request.JobLocation;
         public Schedule Schedule { get; set; } = request.Schedule;
         public string PhotoUrl { get; set; } = request.PhotoUrl;
@@ -63,6 +63,8 @@ public class AccountCompletion
            .Must(MustHaveRequiredParentFields)
            .When(s => s.CreatedByRole == RoleEnum.PARENT)
            .WithMessage("When role is PARENT, NumberOfChildren, ChildrenAgeCategories, ChildrenCharacteristics, and FamilyDescription are required");
+
+            RuleFor(s => s.CreatedByUserId).NotEmpty();
         }
         private bool MustHaveRequiredParentFields(Command request)
         {
@@ -119,11 +121,11 @@ public class AccountCompletionEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/account/completion", async (AccountCompletion.AccountCompletionRequest request, ICurrentUserAccessor currentUser, ISender sender) =>
+        app.MapPost("/api/account/complete", async (AccountCompletion.AccountCompletionRequest request, ICurrentUserAccessor currentUser, ISender sender) =>
         {
             var command = new AccountCompletion.Command(request);
             var result = await sender.Send(command);
             return Results.Ok(result);
-        }).RequireAuthorization();
+        });
     }
 }
