@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BabySitting.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250306005618_InitialCreate")]
+    [Migration("20250306222637_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
