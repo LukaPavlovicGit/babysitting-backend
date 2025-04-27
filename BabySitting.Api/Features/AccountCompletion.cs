@@ -4,26 +4,50 @@ using BabySitting.Api.Domain.Enums;
 using Carter;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 public class AccountCompletion
 {
     public sealed record AccountCompletionRequest(
+        [property: JsonConverter(typeof(JsonStringEnumConverter))]
         RoleEnum CreatedByRole,
+        
         string CreatedByUserId,
+        
         int PostalCode,
+        
         string FirstName,
+        
         string AddressName,
+        
         double AddressLongitude,
+
         double AddressLatitude,
+
         List<LanguagesEnum> SpeakingLanguages,
+        
+        //[property: JsonConverter(typeof(JsonStringEnumConverter))]
         List<SkillsEnum> Skills,
+        
+        [property: JsonConverter(typeof(JsonStringEnumConverter))]
         CurrencyEnum Currency,
+        
         double Rate,
+        
+        [property: JsonConverter(typeof(JsonStringEnumConverter))]
         JobLocationEnum JobLocation,
+        
         Schedule Schedule,
         int? NumberOfChildren,
-        List<ChildAgeCategoryEnum>? ChildrenAgeCategories,
-        List<ChildCharacteristicsEnum>? ChildrenCharacteristics,
+        
+        //[property: JsonConverter(typeof(JsonStringEnumConverter))]
+        List<ChildrenAgeCategoryEnum>? ChildrenAgeCategories,
+        
+        //[property: JsonConverter(typeof(JsonStringEnumConverter))]
+        List<ChildrenCharacteristicsEnum>? ChildrenCharacteristics,
+        
         string? FamilyDescription)
     {
         public string PhotoUrl { get; init; } = string.Empty;
@@ -50,8 +74,8 @@ public class AccountCompletion
         public string PhotoUrl { get; set; } = request.PhotoUrl;
         public bool SubscribeToJobNotifications { get; set; } = request.SubscribeToJobNotifications;
         public int? NumberOfChildren { get; set; } = request.NumberOfChildren;
-        public List<ChildAgeCategoryEnum>? ChildrenAgeCategories { get; set; } = request.ChildrenAgeCategories;
-        public List<ChildCharacteristicsEnum>? ChildrenCharacteristics { get; set; } = request.ChildrenCharacteristics;
+        public List<ChildrenAgeCategoryEnum>? ChildrenAgeCategories { get; set; } = request.ChildrenAgeCategories;
+        public List<ChildrenCharacteristicsEnum>? ChildrenCharacteristics { get; set; } = request.ChildrenCharacteristics;
         public string? FamilyDescription { get; set; } = request.FamilyDescription;
     }
 

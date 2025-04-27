@@ -26,8 +26,8 @@ public class Offer
     public string PhotoUrl { get; set; } = string.Empty;
     public bool SubscribeToJobNotifications { get; set; } = false;
     public int? NumberOfChildren { get; set; } = -1;
-    public List<ChildAgeCategoryEnum>? ChildrenAgeCategories { get; set; } = [];
-    public List<ChildCharacteristicsEnum>? ChildrenCharacteristics { get; set; } = [];
+    public List<ChildrenAgeCategoryEnum>? ChildrenAgeCategories { get; set; } = [];
+    public List<ChildrenCharacteristicsEnum>? ChildrenCharacteristics { get; set; } = [];
     public string? FamilyDescription { get; set; } = string.Empty;
 
     public Offer(AccountCompletion.Command request)

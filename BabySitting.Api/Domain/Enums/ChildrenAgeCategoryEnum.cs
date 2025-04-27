@@ -1,6 +1,6 @@
 ﻿namespace BabySitting.Api.Domain.Enums;
 
-public enum ChildAgeCategoryEnum
+public enum ChildrenAgeCategoryEnum
 {
     BABY,
     TODDLER,

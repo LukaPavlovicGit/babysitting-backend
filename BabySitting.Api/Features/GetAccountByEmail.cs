@@ -33,7 +33,7 @@ public class GetAccountByEmail
     }
 }
 
-public class CheckUserExistsEndpoint : ICarterModule
+public class GetAccountByEmailEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
