@@ -11,43 +11,22 @@ using System.Text.Json.Serialization;
 public class AccountCompletion
 {
     public sealed record AccountCompletionRequest(
-        [property: JsonConverter(typeof(JsonStringEnumConverter))]
-        RoleEnum CreatedByRole,
-        
+        string CreatedByRole,
         string CreatedByUserId,
-        
         int PostalCode,
-        
         string FirstName,
-        
         string AddressName,
-        
         double AddressLongitude,
-
         double AddressLatitude,
-
-        List<LanguagesEnum> SpeakingLanguages,
-        
-        //[property: JsonConverter(typeof(JsonStringEnumConverter))]
-        List<SkillsEnum> Skills,
-        
-        [property: JsonConverter(typeof(JsonStringEnumConverter))]
-        CurrencyEnum Currency,
-        
+        List<string> SpeakingLanguages,
+        List<string> Skills,
+        string Currency,
         double Rate,
-        
-        [property: JsonConverter(typeof(JsonStringEnumConverter))]
-        JobLocationEnum JobLocation,
-        
+        string JobLocation,
         Schedule Schedule,
         int? NumberOfChildren,
-        
-        //[property: JsonConverter(typeof(JsonStringEnumConverter))]
-        List<ChildrenAgeCategoryEnum>? ChildrenAgeCategories,
-        
-        //[property: JsonConverter(typeof(JsonStringEnumConverter))]
-        List<ChildrenCharacteristicsEnum>? ChildrenCharacteristics,
-        
+        List<string>? ChildrenAgeCategories,
+        List<string>? ChildrenCharacteristics,
         string? FamilyDescription)
     {
         public string PhotoUrl { get; init; } = string.Empty;
@@ -56,27 +35,50 @@ public class AccountCompletion
 
     internal sealed record AccountCompletionResponse(bool IsAccountCompleted);
 
-    public class Command(AccountCompletionRequest request) : IRequest<AccountCompletionResponse>
+    public class Command : IRequest<AccountCompletionResponse>
     {
-        public RoleEnum CreatedByRole { get; set; } = request.CreatedByRole;
-        public string CreatedByUserId { get; set; } = request.CreatedByUserId;
-        public int PostalCode { get; set; } = request.PostalCode;
-        public string FirstName { get; set; } = request.FirstName;
-        public string AddressName { get; set; } = request.AddressName;
-        public double AddressLongitude { get; set; } = request.AddressLongitude;
-        public double AddressLatitude { get; set; } = request.AddressLatitude;
-        public List<LanguagesEnum> SpeakingLanguages { get; set; } = request.SpeakingLanguages;
-        public List<SkillsEnum> Skills { get; set; } = request.Skills;
-        public CurrencyEnum Currency { get; set; } = request.Currency;
-        public double Rate { get; set; } = request.Rate;
-        public JobLocationEnum JobLocation { get; set; } = request.JobLocation;
-        public Schedule Schedule { get; set; } = request.Schedule;
-        public string PhotoUrl { get; set; } = request.PhotoUrl;
-        public bool SubscribeToJobNotifications { get; set; } = request.SubscribeToJobNotifications;
-        public int? NumberOfChildren { get; set; } = request.NumberOfChildren;
-        public List<ChildrenAgeCategoryEnum>? ChildrenAgeCategories { get; set; } = request.ChildrenAgeCategories;
-        public List<ChildrenCharacteristicsEnum>? ChildrenCharacteristics { get; set; } = request.ChildrenCharacteristics;
-        public string? FamilyDescription { get; set; } = request.FamilyDescription;
+        public Command(AccountCompletionRequest request)
+        {
+            CreatedByRole = Enum.Parse<RoleEnum>(request.CreatedByRole);
+            CreatedByUserId = request.CreatedByUserId;
+            PostalCode = request.PostalCode;
+            FirstName = request.FirstName;
+            AddressName = request.AddressName;
+            AddressLongitude = request.AddressLongitude;
+            AddressLatitude = request.AddressLatitude;
+            SpeakingLanguages = request.SpeakingLanguages.Select(x => Enum.Parse<LanguagesEnum>(x)).ToList();
+            Skills = request.Skills.Select(x => Enum.Parse<SkillsEnum>(x)).ToList();
+            Currency = Enum.Parse<CurrencyEnum>(request.Currency);
+            Rate = request.Rate;
+            JobLocation = Enum.Parse<JobLocationEnum>(request.JobLocation);
+            Schedule = request.Schedule;
+            PhotoUrl = request.PhotoUrl;
+            SubscribeToJobNotifications = request.SubscribeToJobNotifications;
+            NumberOfChildren = request.NumberOfChildren;
+            ChildrenAgeCategories = request.ChildrenAgeCategories?.Select(x => Enum.Parse<ChildrenAgeCategoryEnum>(x)).ToList();
+            ChildrenCharacteristics = request.ChildrenCharacteristics?.Select(x => Enum.Parse<ChildrenCharacteristicsEnum>(x)).ToList();
+            FamilyDescription = request.FamilyDescription;
+        }
+
+        public RoleEnum CreatedByRole { get; set; }
+        public string CreatedByUserId { get; set; }
+        public int PostalCode { get; set; }
+        public string FirstName { get; set; }
+        public string AddressName { get; set; }
+        public double AddressLongitude { get; set; }
+        public double AddressLatitude { get; set; }
+        public List<LanguagesEnum> SpeakingLanguages { get; set; }
+        public List<SkillsEnum> Skills { get; set; }
+        public CurrencyEnum Currency { get; set; }
+        public double Rate { get; set; }
+        public JobLocationEnum JobLocation { get; set; }
+        public Schedule Schedule { get; set; }
+        public string PhotoUrl { get; set; }
+        public bool SubscribeToJobNotifications { get; set; }
+        public int? NumberOfChildren { get; set; }
+        public List<ChildrenAgeCategoryEnum>? ChildrenAgeCategories { get; set; }
+        public List<ChildrenCharacteristicsEnum>? ChildrenCharacteristics { get; set; }
+        public string? FamilyDescription { get; set; }
     }
 
     public class Validator : AbstractValidator<Command>
