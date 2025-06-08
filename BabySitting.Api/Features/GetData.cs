@@ -32,23 +32,23 @@ public class GetAllAccounts
 public class GetAllOffers
 {
     internal sealed record class OfferDetailsDto(
-        string Id, 
-        RoleEnum CreatedByRole, 
+        string Id,
+        RoleEnum CreatedByRole,
         string CreatedByUserId,
         string FirstName,
         int PostalCode,
         string Addressname,
         double AddressLongitude,
         double AddressLatitude,
-        List<LanguagesEnum> SpeakingLanguages, 
+        List<LanguagesEnum> SpeakingLanguages,
         List<SkillsEnum> Skills,
-        CurrencyEnum Currency, 
-        double Rate, 
-        JobLocationEnum JobLocation, 
-        Schedule Schedule, 
-        int? NumberOfChildren, 
-        List<ChildrenAgeCategoryEnum>? ChildrenAgeCategories, 
-        List<ChildrenCharacteristicsEnum>? ChildrenCharacteristics, 
+        CurrencyEnum Currency,
+        double Rate,
+        JobLocationEnum JobLocation,
+        Schedule Schedule,
+        int? NumberOfChildren,
+        List<ChildrenAgeCategoryEnum>? ChildrenAgeCategories,
+        List<ChildrenCharacteristicsEnum>? ChildrenCharacteristics,
         string? FamilyDescription
     );
 
@@ -102,7 +102,7 @@ public class GetAllAccountsEndpoint : ICarterModule
             var offersQuery = new GetAllOffers.Query();
             var offers = await sender.Send(offersQuery);
 
-            return Results.Ok(new { accounts, offers } );
+            return Results.Ok(new { accounts, offers });
         });
     }
 }

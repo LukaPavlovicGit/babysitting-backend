@@ -1,10 +1,10 @@
-﻿using System.Net.Mail;
-using System.Net;
+﻿using BabySitting.Api.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.Text.Encodings.Web;
-using BabySitting.Api.Domain.Entities;
 using Microsoft.AspNetCore.WebUtilities;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
+using System.Text.Encodings.Web;
 
 namespace BabySitting.Api.Shared;
 
@@ -19,7 +19,7 @@ public class EmailSender : ISenderEmail
     private readonly UserManager<User> _userManager;
     private readonly ILogger<EmailSender> _logger;
 
-    public EmailSender(IConfiguration configuration, UserManager<User> userManager, ILogger<EmailSender> logger) 
+    public EmailSender(IConfiguration configuration, UserManager<User> userManager, ILogger<EmailSender> logger)
     {
         _configuration = configuration;
         _userManager = userManager;

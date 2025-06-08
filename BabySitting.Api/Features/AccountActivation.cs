@@ -1,5 +1,4 @@
-﻿y
-using BabySitting.Api.Database;
+﻿using BabySitting.Api.Database;
 using BabySitting.Api.Domain.Entities;
 using Carter;
 using MediatR;

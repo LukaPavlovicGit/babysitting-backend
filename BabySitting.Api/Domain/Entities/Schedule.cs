@@ -6,7 +6,7 @@ namespace BabySitting.Api.Domain.Entities;
 public class Schedule
 {
     public int Id { get; set; }
-     
+
     public bool MondayMorning { get; set; } = false;
     public bool MondayAfternoon { get; set; } = false;
     public bool MondayEvening { get; set; } = false;

@@ -4,10 +4,6 @@ using BabySitting.Api.Domain.Enums;
 using Carter;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using Newtonsoft.Json.Converters;
-using System.Text.Json.Serialization;
-
 public class AccountCompletion
 {
     public sealed record AccountCompletionRequest(
@@ -85,10 +81,10 @@ public class AccountCompletion
     {
         public Validator()
         {
-           RuleFor(s => s)
-           .Must(MustHaveRequiredParentFields)
-           .When(s => s.CreatedByRole == RoleEnum.PARENT)
-           .WithMessage("When role is PARENT, NumberOfChildren, ChildrenAgeCategories, ChildrenCharacteristics, and FamilyDescription are required");
+            RuleFor(s => s)
+            .Must(MustHaveRequiredParentFields)
+            .When(s => s.CreatedByRole == RoleEnum.PARENT)
+            .WithMessage("When role is PARENT, NumberOfChildren, ChildrenAgeCategories, ChildrenCharacteristics, and FamilyDescription are required");
 
             RuleFor(s => s.CreatedByUserId).NotEmpty();
         }
@@ -103,9 +99,10 @@ public class AccountCompletion
         private readonly ApplicationDbContext _dbContext = dbContext;
         private readonly IValidator<Command> _validator = validator;
 
-        public async Task<AccountCompletionResponse> Handle(Command request, CancellationToken cancellationToken){
+        public async Task<AccountCompletionResponse> Handle(Command request, CancellationToken cancellationToken)
+        {
             var validationResult = _validator.Validate(request);
-            if(!validationResult.IsValid)
+            if (!validationResult.IsValid)
             {
                 throw new ApplicationException(validationResult.ToString());
             }
@@ -114,7 +111,7 @@ public class AccountCompletion
             _dbContext.Add(offer);
 
             var result = await _dbContext.SaveChangesAsync(cancellationToken);
-            if(result != 2)
+            if (result != 2)
             {
                 _dbContext.Remove(offer);
                 throw new ApplicationException("Failed to save changes");
@@ -130,9 +127,9 @@ public class AccountCompletion
             user.IsAccountCompleted = true;
             user.Role = request.CreatedByRole;
             _dbContext.Update(user);
-            
+
             result = await _dbContext.SaveChangesAsync(cancellationToken);
-            if(result != 1)
+            if (result != 1)
             {
                 _dbContext.Remove(offer);
                 throw new ApplicationException("Failed to save changes on user entity while completing account");

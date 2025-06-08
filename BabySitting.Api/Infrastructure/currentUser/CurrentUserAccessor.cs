@@ -2,7 +2,7 @@ public class CurrentUserAccessor : ICurrentUserAccessor
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public CurrentUserAccessor(IHttpContextAccessor httpContextAccessor) 
+    public CurrentUserAccessor(IHttpContextAccessor httpContextAccessor)
         => _httpContextAccessor = httpContextAccessor;
 
     public CurrentUser User => new(

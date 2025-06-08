@@ -1,17 +1,17 @@
-  using BabySitting.Api.Database;
+using BabySitting.Api.Database;
 using BabySitting.Api.Domain.Entities;
+using BabySitting.Api.Domain.Enums;
 using BabySitting.Api.Extensions;
+using BabySitting.Api.Infrastructure;
+using BabySitting.Api.Middleware;
 using BabySitting.Api.Shared;
 using Carter;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using BabySitting.Api.Domain.Enums;
-using Serilog;
-using BabySitting.Api.Middleware;
-using BabySitting.Api.Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 internal class Program
@@ -80,7 +80,7 @@ internal class Program
             .AddDefaultTokenProviders();
 
         builder.Services.AddHttpContextAccessor();
-        
+
         builder.Services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
 
         builder.Services.AddTransient<ISenderEmail, EmailSender>();

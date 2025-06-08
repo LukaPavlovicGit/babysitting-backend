@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 namespace BabySitting.Api.Features.Account;
 
 public class GetAccountByEmail
-{   
+{
     internal record AccountDetailsResponse(string UserId, string Email, string FirstName, string LastName);
-    
+
     internal class Query : IRequest<AccountDetailsResponse>
     {
         public string Email { get; set; } = string.Empty;
@@ -25,9 +25,9 @@ public class GetAccountByEmail
                 .Users
                 .AsNoTracking()
                 .Where(u => u.Email != null && u.Email.ToLower() == request.Email.ToLower())
-                .FirstOrDefaultAsync(cancellationToken) 
+                .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new NotFoundException("User not found");
-                
+
             return new AccountDetailsResponse(user.Id, user.Email!, user.FirstName, user.LastName);
         }
     }

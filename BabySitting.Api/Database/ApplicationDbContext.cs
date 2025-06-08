@@ -21,7 +21,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         builder.Entity<IdentityRole>()
             .HasIndex(r => r.Name)
             .IsUnique();
-        
+
         builder.Entity<Offer>().ToTable("Offers", "public");
         builder.Entity<Schedule>().ToTable("Schedules", "public");
         builder.Entity<Verification>().ToTable("Verifications", "public");

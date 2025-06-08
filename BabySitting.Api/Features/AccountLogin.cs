@@ -1,10 +1,10 @@
 using BabySitting.Api.Database;
 using BabySitting.Api.Domain.Entities;
+using BabySitting.Api.Exceptions;
 using BabySitting.Api.Infrastructure;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using BabySitting.Api.Exceptions;
 namespace BabySitting.Api.Features.Account;
 
 public class AccountLogin
@@ -16,8 +16,8 @@ public class AccountLogin
         public bool RememberMe { get; set; } = false;
     }
 
-    internal record AccountLoginResponse(string Token, bool IsAccountCompleted);
-    
+    internal record AccountLoginResponse(string Token, bool IsAccountCompleted, long Longitude, long Latitude);
+
     internal sealed class Query(AccountLoginRequest request) : IRequest<AccountLoginResponse>
     {
         public string Email { get; set; } = request.Email;

@@ -11,7 +11,7 @@ public class GetAccountsByCriteria
     public sealed record class GetAccountsByCriteriaRequest(bool? IsAccountCompleted, string? Email, string? FirstName, string? LastName, string? Role);
 
     public sealed record class AccountDetailsDto(string Id, string Email, string FirstName, string LastName, string Role, bool IsAccountCompleted, double VerificationScore);
-    
+
     public sealed record class GetAccountByCriteriaResponse(List<AccountDetailsDto> Accounts);
 
     public class Command(GetAccountsByCriteriaRequest request) : IRequest<GetAccountByCriteriaResponse>
@@ -29,7 +29,7 @@ public class GetAccountsByCriteria
 
         public async Task<GetAccountByCriteriaResponse> Handle(Command request, CancellationToken cancellationToken)
         {
-            
+
             var query = _dbContext.Users.AsQueryable();
 
             if (request.IsAccountCompleted != null)
@@ -44,17 +44,17 @@ public class GetAccountsByCriteria
             {
                 query = query.Where(u => u.FirstName != null && request.FirstName.ToLower() == u.FirstName.ToLower());
             }
-            if(request.LastName != null)
+            if (request.LastName != null)
             {
                 query = query.Where(u => u.LastName != null && request.LastName.ToLower() == u.LastName.ToLower());
             }
-            if(request.Role != null)
+            if (request.Role != null)
             {
                 query = query.Where(u => u.Role == Enum.Parse<RoleEnum>(request.Role));
             }
 
             var accounts = await query.ToListAsync(cancellationToken);
-            if(accounts == null)
+            if (accounts == null)
             {
                 throw new ApplicationException("GetAccountsByCriteria.Handler.Handle.(accounts == null)");
             }

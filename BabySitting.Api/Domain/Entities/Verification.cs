@@ -9,18 +9,18 @@ public class Verification
     [Key]
     public int Id { get; set; }
 
-    public Guid UserId { get; set; } 
+    public Guid UserId { get; set; }
 
     public bool GovernmentIdProvided { get; set; } = false;
 
     public bool EmailVerified { get; set; } = false;
-    
+
     public bool PhonePhoneVerified { get; set; } = false;
 
     public bool GoogleAccountVerified { get; set; } = false;
 
-    public bool FacebookAccountVerified {  get; set; } = false;
-    
+    public bool FacebookAccountVerified { get; set; } = false;
+
     public bool LinkedInAccountVerified { get; set; } = false;
 
 

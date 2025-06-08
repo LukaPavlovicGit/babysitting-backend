@@ -1,6 +1,6 @@
+using BabySitting.Api.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using BabySitting.Api.Domain.Enums;
 
 namespace BabySitting.Api.Domain.Entities;
 

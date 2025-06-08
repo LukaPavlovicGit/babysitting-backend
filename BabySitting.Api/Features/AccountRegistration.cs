@@ -1,11 +1,11 @@
 ﻿using BabySitting.Api.Database;
+using BabySitting.Api.Domain.Entities;
+using BabySitting.Api.Exceptions;
 using BabySitting.Api.Shared;
 using Carter;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using BabySitting.Api.Domain.Entities;
-using BabySitting.Api.Exceptions;
 using ValidationException = BabySitting.Api.Exceptions.ValidationException;
 
 namespace BabySitting.Api.Features.Account;
