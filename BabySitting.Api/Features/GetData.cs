@@ -97,12 +97,12 @@ public class GetAllAccountsEndpoint : ICarterModule
         app.MapGet("/api/get-data", async (ISender sender) =>
         {
             var accountsQuery = new GetAllAccounts.Query();
-            var accounts = await sender.Send(accountsQuery);
+            var accountsResponse = await sender.Send(accountsQuery);
 
             var offersQuery = new GetAllOffers.Query();
-            var offers = await sender.Send(offersQuery);
+            var offersResponse = await sender.Send(offersQuery);
 
-            return Results.Ok(new { accounts, offers });
+            return Results.Ok(new { accountsResponse.Accounts, offersResponse.Offers });
         });
     }
 }
