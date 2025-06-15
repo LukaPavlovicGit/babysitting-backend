@@ -16,7 +16,7 @@ public class AccountLogin
         public bool RememberMe { get; set; } = false;
     }
 
-    internal record AccountLoginResponse(string Token, string Email, bool IsAccountCompleted, long? Longitude, long? Latitude);
+    internal record AccountLoginResponse(string Token, string Email, string UserId, bool IsAccountCompleted);
 
     internal sealed class Query(AccountLoginRequest request) : IRequest<AccountLoginResponse>
     {
@@ -52,7 +52,7 @@ public class AccountLogin
 
             var user = await _signInManager.UserManager.FindByEmailAsync(request.Email);
             string token = _tokenProvider.Create(user!);
-            return new AccountLoginResponse(token, request.Email, user!.IsAccountCompleted, null, null);
+            return new AccountLoginResponse(token, user!.Email!, user!.Id, user!.IsAccountCompleted);
         }
     }
 }
